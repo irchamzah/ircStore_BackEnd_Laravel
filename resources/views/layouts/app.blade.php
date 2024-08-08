@@ -46,14 +46,15 @@
             <div class="flex items-center space-x-4">
                 <!-- Shopping Cart -->
 
+
+
+                @auth
                 <a href="{{ route('cart.index') }}" class="text-gray-300 hover:text-white">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span class="ml-1">
-                        {{ Cart::count() }}
+                        {{ $cartCount }}
                     </span>
                 </a>
-
-                @auth
                 <!-- User Account and Logout -->
                 <div class="relative">
                     <span class="text-white cursor-pointer" id="userMenuButton">{{ Auth::user()->name }}</span>

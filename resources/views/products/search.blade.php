@@ -25,10 +25,12 @@
             </select>
 
             <!-- Price Filter -->
-            <input type="number" name="min_price" placeholder="Min Price" value="{{ request('min_price') }}"
+            <input type="number" name="min_price" placeholder="Min Price" value="{{ request('min_price') }}" min="0"
+                step="10"
                 class="px-4 py-2 rounded-md bg-gray-200 text-gray-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-            <input type="number" name="max_price" placeholder="Max Price" value="{{ request('max_price') }}"
+            <input type="number" name="max_price" placeholder="Max Price" value="{{ request('max_price') }}" min="0"
+                step="10"
                 class="px-4 py-2 rounded-md bg-gray-200 text-gray-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
             <!-- Sort By -->
@@ -39,9 +41,15 @@
                 <option value="price" {{ request('sort_by')=='price' ? 'selected' : '' }}>Price</option>
             </select>
 
-            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600">
-                Apply Filters
-            </button>
+            <!-- Buttons -->
+            <div class="flex items-center gap-4">
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600">
+                    Apply Filters
+                </button>
+                <button type="reset" class="px-4 py-2 bg-gray-500 text-white rounded-md shadow hover:bg-gray-600">
+                    Reset
+                </button>
+            </div>
         </div>
     </form>
 

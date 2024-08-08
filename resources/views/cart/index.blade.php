@@ -10,7 +10,7 @@
     </div>
     @endif
 
-    @if(empty($items))
+    @if(count($items) == 0)
     <p>Your cart is empty!</p>
     @else
     <table class="w-full bg-white rounded-lg shadow-lg">
@@ -39,7 +39,7 @@
                 <td class="px-4 py-2 text-center">
                     <form action="{{ route('cart.update', $item->id) }}" method="POST">
                         @csrf
-                        <input type="number" name="quantity" value="{{ $item->quantity }}"
+                        <input type="number" name="quantity" value="{{ $item->quantity }}" min="1"
                             class="w-16 text-center bg-gray-100 rounded">
                         <button type="submit" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Update</button>
                     </form>
