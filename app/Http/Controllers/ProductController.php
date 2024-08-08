@@ -41,7 +41,12 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::findOrFail($id);
-        return view('products.show', compact('product'));
+        $product = Product::with('reviews')->findOrFail($id);
+
+        // Menghitung rata-rata rating, jika ada ulasan
+        $averageRating = $product->reviews->avg('rating');
+        $averageRating = $averageRating ? round($averageRating, 1) : 0; // Membulatkan ke satu desimal
+
+        return view('products.show', compact('product', 'averageRating'));
     }
 }

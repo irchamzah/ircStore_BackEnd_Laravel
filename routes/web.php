@@ -1,12 +1,16 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserAccountController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -57,4 +61,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/account/profile', [UserAccountController::class, 'profile'])->name('account.profile');
     Route::get('/account/orders', [UserAccountController::class, 'orders'])->name('account.orders');
     Route::get('/account/wishlist', [UserAccountController::class, 'wishlist'])->name('account.wishlist');
+
+    Route::post('/products/{id}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+
+    Route::get('/order/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
+    Route::get('/checkout/complete', [OrderController::class, 'complete'])->name('checkout.complete');
+});
+
+Route::prefix('admin')->name('admin.')->middleware('auth', 'admin')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+    Route::resource('products', AdminProductController::class);
+    // Tambahkan rute lain untuk kategori, pengguna, dll.
 });

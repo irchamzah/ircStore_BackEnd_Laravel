@@ -7,11 +7,16 @@
     <h1 class="text-3xl font-bold text-gray-800 mb-8">Order History</h1>
     <div class="bg-white p-6 rounded-lg shadow-lg">
         @forelse ($orders as $order)
-        <div class="mb-4">
+        <div class="mb-4 border-b border-gray-300 pb-4">
             <p><strong>Order ID:</strong> {{ $order->id }}</p>
             <p><strong>Total:</strong> ${{ number_format($order->total, 2) }}</p>
             <p><strong>Date:</strong> {{ $order->created_at->format('d M Y') }}</p>
             <!-- Add more order details here -->
+
+            <!-- Link to order confirmation -->
+            <a href="{{ route('order.confirm', ['order_id' => $order->id]) }}" class="text-blue-500 hover:underline">
+                View Order Details
+            </a>
         </div>
         @empty
         <p class="text-gray-500">You have no orders.</p>
