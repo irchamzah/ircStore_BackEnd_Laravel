@@ -60,12 +60,13 @@
                     <span class="text-white cursor-pointer" id="userMenuButton">{{ Auth::user()->name }}</span>
                     <div id="userMenu"
                         class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                        {{-- {{ route('profile.index') }} --}}
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
-                        {{-- {{ route('orders.index') }} --}}
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Orders</a>
-                        {{-- {{ route('wishlist.index') }} --}}
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Wishlist</a>
+
+                        <a href="{{ route('account.profile') }}"
+                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+                        <a href="{{ route('account.orders') }}"
+                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Orders</a>
+                        <a href="{{ route('account.wishlist') }}"
+                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Wishlist</a>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button type="submit"
