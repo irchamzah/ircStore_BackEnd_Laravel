@@ -33,9 +33,10 @@
                 <a href="{{ route('search') }}" class="text-gray-300 hover:text-white">
                     All Products
                 </a>
+            </div>
 
+            <div class="flex items-center space-x-4">
                 <!-- Search Bar -->
-
                 <form action="{{ route('search') }}" method="GET" class="hidden md:flex">
                     <input type="text" name="query" placeholder="Search products..."
                         class="px-3 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -44,11 +45,11 @@
 
             <div class="flex items-center space-x-4">
                 <!-- Shopping Cart -->
-                {{-- {{ route('cart.index') }} --}}
-                <a href="#" class="text-gray-300 hover:text-white">
+
+                <a href="{{ route('cart.index') }}" class="text-gray-300 hover:text-white">
                     <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="ml-1">Cart::count()
-                        {{-- {{ Cart::count() }} --}}
+                    <span class="ml-1">
+                        {{ Cart::count() }}
                     </span>
                 </a>
 
