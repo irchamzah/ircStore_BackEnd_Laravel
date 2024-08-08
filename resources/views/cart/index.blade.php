@@ -41,7 +41,8 @@
                         @csrf
                         <input type="number" name="quantity" value="{{ $item->quantity }}" min="1"
                             class="w-16 text-center bg-gray-100 rounded">
-                        <button type="submit" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Update</button>
+                        <button type="submit"
+                            class="ml-2 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">Update</button>
                     </form>
                 </td>
                 <td class="px-4 py-2 text-center">${{ $item->product->price }}</td>
@@ -49,7 +50,8 @@
                 <td class="px-4 py-2 text-center">
                     <form action="{{ route('cart.remove', $item->id) }}" method="POST">
                         @csrf
-                        <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded">Remove</button>
+                        <button type="submit"
+                            class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Remove</button>
                     </form>
                 </td>
             </tr>
@@ -60,8 +62,16 @@
     <div class="mt-6">
         <form action="{{ route('cart.clear') }}" method="POST">
             @csrf
-            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Clear Cart</button>
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Clear Cart</button>
         </form>
+    </div>
+
+    <!-- Checkout Button -->
+    <div class="mt-6">
+        <a href="{{ route('checkout.index') }}"
+            class="bg-green-500 text-white px-6 py-3 rounded-lg shadow hover:bg-green-600">
+            Proceed to Checkout
+        </a>
     </div>
     @endif
 </div>
