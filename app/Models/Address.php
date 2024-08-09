@@ -15,11 +15,17 @@ class Address extends Model
         'city',
         'state',
         'postal_code',
-        'country'
+        'country',
+        'is_primary',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function isPrimary()
+    {
+        return $this->is_primary; // Assuming you have an 'is_primary' column
     }
 }

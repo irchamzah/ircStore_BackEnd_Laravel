@@ -39,22 +39,36 @@
             <h2 class="text-2xl font-semibold text-gray-800 mb-6">Payment Information</h2>
             <form action="{{ route('checkout.process') }}" method="POST">
                 @csrf
-                <!-- Payment fields here (e.g., card number, expiration date, etc.) -->
+                <!-- Pilihan Alamat Pengiriman -->
                 <div class="mb-4">
-                    <label for="name" class="block text-gray-700">Full Name</label>
-                    <input type="text" name="name" id="name"
+                    <label for="address_id" class="block text-gray-700">Select Shipping Address</label>
+                    <select name="address_id" id="address_id"
                         class="w-full px-4 py-2 border rounded-md bg-gray-200 text-gray-800">
+                        @foreach($addresses as $address)
+                        <option value="{{ $address->id }}">{{ $address->address }}</option>
+                        @endforeach
+                    </select>
                 </div>
+
+                <!-- Pilih Jasa Pengiriman -->
                 <div class="mb-4">
-                    <label for="address" class="block text-gray-700">Shipping Address</label>
-                    <input type="text" name="address" id="address"
+                    <label for="shipping_method" class="block text-gray-700">Shipping Method</label>
+                    <select name="shipping_method" id="shipping_method"
                         class="w-full px-4 py-2 border rounded-md bg-gray-200 text-gray-800">
+                        <option value="standard">Standard Shipping</option>
+                        <option value="express">Express Shipping</option>
+                        <!-- Add other shipping methods as needed -->
+                    </select>
                 </div>
+
+                <!-- Pesan (Catatan) untuk Penjual -->
                 <div class="mb-4">
-                    <label for="card_number" class="block text-gray-700">Card Number</label>
-                    <input type="text" name="card_number" id="card_number"
-                        class="w-full px-4 py-2 border rounded-md bg-gray-200 text-gray-800">
+                    <label for="notes" class="block text-gray-700">Notes for Seller</label>
+                    <textarea name="notes" id="notes"
+                        class="w-full px-4 py-2 border rounded-md bg-gray-200 text-gray-800" rows="4"></textarea>
                 </div>
+
+
                 <button type="submit"
                     class="w-full px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600">Place
                     Order</button>

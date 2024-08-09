@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminOrderController;
@@ -49,11 +50,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
 
-    // Route::get('/account/profile', [UserAccountController::class, 'profile'])->name('account.profile');
-    Route::get('/account/profile', [UserAccountController::class, 'edit'])->name('account.profile.edit');
-    Route::put('/account/profile', [UserAccountController::class, 'update'])->name('account.profile.update');
+    Route::get('/account/profile', [UserAccountController::class, 'profile'])->name('account.profile');
+    Route::get('/account/edit', [UserAccountController::class, 'edit'])->name('account.profile.edit');
+    Route::put('/account/update', [UserAccountController::class, 'update'])->name('account.profile.update');
     Route::get('/account/orders', [UserAccountController::class, 'orders'])->name('account.orders');
     Route::get('/account/wishlist', [UserAccountController::class, 'wishlist'])->name('account.wishlist');
+
+    Route::post('addresses', [AddressController::class, 'store'])->name('addresses.store');
+    Route::put('addresses/{id}', [AddressController::class, 'update'])->name('addresses.update');
+    Route::delete('addresses/{id}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+    Route::get('addresses/{id}/edit', [AddressController::class, 'edit'])->name('addresses.edit');
+
+
 
     Route::post('/products/{id}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');

@@ -10,10 +10,23 @@ class CheckoutController extends Controller
     {
         $cartItems = \App\Models\Cart::with('items.product')->where('user_id', auth()->id())->first();
 
+        // Mengambil alamat-alamat pengguna
+        $addresses = auth()->user()->addresses; // Pastikan user memiliki relasi ke alamat
+
+        // Mendapatkan metode pengiriman
+        $shippingMethods = ['Standard', 'Express', 'Next Day']; // Contoh metode pengiriman
+
+        // Mendapatkan catatan dari session
+        $note = session('checkout_note', '');
+
         return view('checkout.index', [
             'cartItems' => $cartItems->items ?? [],
+            'addresses' => $addresses,
+            'shippingMethods' => $shippingMethods,
+            'note' => $note,
         ]);
     }
+
 
     public function process(Request $request)
     {

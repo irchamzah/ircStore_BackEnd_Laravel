@@ -11,8 +11,12 @@ class UserAccountController extends Controller
 {
     public function profile()
     {
-        $user = Auth::user();
-        return view('account.profile', compact('user'));
+        $user = User::with(['addresses', 'orders', 'wishlistItems', 'reviews'])->findOrFail(auth()->id());
+
+        $totalPurchases = $user->orders->sum('total_amount');
+        $lastReview = $user->reviews()->latest()->first();
+
+        return view('account.profile', compact('user', 'totalPurchases', 'lastReview'));
     }
 
     public function orders()
@@ -33,7 +37,7 @@ class UserAccountController extends Controller
     public function edit()
     {
         $user = Auth::user();
-        return view('account.profile', compact('user'));
+        return view('account.edit', compact('user'));
     }
 
     public function update(Request $request)
@@ -62,6 +66,6 @@ class UserAccountController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('account.profile.edit')->with('success', 'Profile updated successfully.');
+        return redirect()->route('account.profile')->with('success', 'Profile updated successfully.');
     }
 }
