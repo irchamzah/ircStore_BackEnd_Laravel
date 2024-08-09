@@ -33,7 +33,15 @@
 
         <button type="submit"
             class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600">Search</button>
+
+        <a href="{{ route('admin.users.export') }}"
+            class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600">
+            Export Users to Excel
+        </a>
     </form>
+
+
+
 
     <table class="w-full bg-white rounded-lg shadow-lg">
         <thead>

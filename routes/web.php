@@ -49,7 +49,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
 
-    Route::get('/account/profile', [UserAccountController::class, 'profile'])->name('account.profile');
+    // Route::get('/account/profile', [UserAccountController::class, 'profile'])->name('account.profile');
+    Route::get('/account/profile', [UserAccountController::class, 'edit'])->name('account.profile.edit');
+    Route::put('/account/profile', [UserAccountController::class, 'update'])->name('account.profile.update');
     Route::get('/account/orders', [UserAccountController::class, 'orders'])->name('account.orders');
     Route::get('/account/wishlist', [UserAccountController::class, 'wishlist'])->name('account.wishlist');
 
@@ -69,5 +71,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'admin')->group(funct
 
     Route::resource('orders', AdminOrderController::class);
 
+    Route::get('users/export', [AdminUserController::class, 'export'])->name('users.export');
     Route::resource('users', AdminUserController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
 });
