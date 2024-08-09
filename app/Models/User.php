@@ -23,6 +23,10 @@ class User extends Authenticatable
         'password',
         'google_id',
         'role',
+        'phone_number',
+        'date_of_birth',
+        'status',
+        'photo',
     ];
 
     /**
@@ -57,5 +61,20 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    public function wishlistItems()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }

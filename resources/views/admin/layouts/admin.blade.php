@@ -40,8 +40,9 @@
                                 class="block py-2 px-4 hover:bg-gray-700">Orders</a>
                         </li>
                         <li>
-                            {{-- {{ route('admin.users.index') }} --}}
-                            <a href="#" class="block py-2 px-4 hover:bg-gray-700">Users</a>
+
+                            <a href="{{ route('admin.users.index') }}"
+                                class="block py-2 px-4 hover:bg-gray-700">Users</a>
                         </li>
                         <!-- Tambahkan menu lainnya sesuai kebutuhan -->
                     </ul>

@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CartController;
@@ -67,4 +68,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'admin')->group(funct
     Route::resource('categories', AdminCategoryController::class);
 
     Route::resource('orders', AdminOrderController::class);
+
+    // Definisikan rute untuk manajemen pengguna
+    Route::resource('users', AdminUserController::class)->only(['index', 'show', 'edit', 'update']);
 });
