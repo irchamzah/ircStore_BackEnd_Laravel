@@ -35,6 +35,16 @@
             class="inline-block mt-4 bg-yellow-500 text-white px-4 py-2 rounded-lg shadow hover:bg-yellow-600">
             Edit User
         </a>
+
+        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+            onsubmit="return confirm('Are you sure you want to delete this user?');" style="display:inline;">
+            @csrf
+            @method('DELETE')
+            <button type="submit"
+                class="inline-block mt-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600">
+                Delete User
+            </button>
+        </form>
     </div>
 
     <div class="bg-white rounded-lg shadow-lg p-6 mb-6">

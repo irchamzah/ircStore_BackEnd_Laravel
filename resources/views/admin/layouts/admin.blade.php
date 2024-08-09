@@ -54,6 +54,9 @@
         <main class="flex-1 p-6">
             <header class="mb-6">
                 <div class="flex justify-between items-center">
+                    <a href="{{ route('admin.users.show', Auth::user()->id) }}">
+                        <span class="text-black hover:text-blue-500 hover:underline" id="userMenuButton">{{
+                            Auth::user()->name }}</span></a>
                     <h1 class="text-3xl font-bold">@yield('title')</h1>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf

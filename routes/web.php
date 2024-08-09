@@ -69,6 +69,5 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'admin')->group(funct
 
     Route::resource('orders', AdminOrderController::class);
 
-    // Definisikan rute untuk manajemen pengguna
-    Route::resource('users', AdminUserController::class)->only(['index', 'show', 'edit', 'update']);
+    Route::resource('users', AdminUserController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
 });

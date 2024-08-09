@@ -88,4 +88,17 @@ class AdminUserController extends Controller
         return redirect()->route('admin.users.show', $user->id)
             ->with('success', 'User updated successfully.');
     }
+
+    public function destroy(User $user)
+    {
+        // Hapus foto profil dari storage jika ada
+        if ($user->photo) {
+            Storage::disk('public')->delete($user->photo);
+        }
+
+        // Hapus user dari database
+        $user->delete();
+
+        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+    }
 }
