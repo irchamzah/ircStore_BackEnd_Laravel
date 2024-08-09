@@ -30,12 +30,14 @@
                                 class="block py-2 px-4 hover:bg-gray-700">Products</a>
                         </li>
                         <li>
-                            {{-- {{ route('admin.categories.index') }} --}}
-                            <a href="#" class="block py-2 px-4 hover:bg-gray-700">Categories</a>
+
+                            <a href="{{ route('admin.categories.index') }}"
+                                class="block py-2 px-4 hover:bg-gray-700">Categories</a>
                         </li>
                         <li>
-                            {{-- {{ route('admin.orders.index') }} --}}
-                            <a href="#" class="block py-2 px-4 hover:bg-gray-700">Orders</a>
+
+                            <a href="{{ route('admin.orders.index') }}"
+                                class="block py-2 px-4 hover:bg-gray-700">Orders</a>
                         </li>
                         <li>
                             {{-- {{ route('admin.users.index') }} --}}
@@ -52,7 +54,13 @@
             <header class="mb-6">
                 <div class="flex justify-between items-center">
                     <h1 class="text-3xl font-bold">@yield('title')</h1>
-                    <a href="{{ route('logout') }}" class="text-blue-500 hover:text-blue-700">Logout</a>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600">
+                            Logout
+                        </button>
+                    </form>
                 </div>
             </header>
 
