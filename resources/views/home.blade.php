@@ -19,7 +19,7 @@
                     </a>
                 </div>
                 <div>
-                    <img src="https://via.placeholder.com/400x300" alt="Hero Image" class="rounded-lg shadow-lg">
+                    <img src="/images/hero.jpg" alt="Hero Image" class="rounded-lg shadow-lg h-96">
                 </div>
             </div>
         </div>
@@ -68,13 +68,13 @@
 
 
         <!-- Promotional Banner -->
-        <div class="promotion bg-blue-500 rounded-lg p-8 text-white text-center shadow-lg">
+        {{-- <div class="promotion bg-blue-500 rounded-lg p-8 text-white text-center shadow-lg">
             <h3 class="text-3xl font-bold">Special Offer!</h3>
             <p class="mt-2">Get 50% off on selected items. Limited time only!</p>
             <a href="#" class="mt-4 inline-block bg-white text-blue-500 px-4 py-2 rounded-lg shadow hover:bg-gray-200">
                 Shop Now
             </a>
-        </div>
+        </div> --}}
 
     </div>
 </div>

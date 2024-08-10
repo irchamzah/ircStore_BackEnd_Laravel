@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OrderItem;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,11 @@ class ReviewController extends Controller
             'review' => $request->input('review'),
         ]);
 
-        return redirect()->route('product.show', $productId)->with('success', 'Review added successfully.');
+        OrderItem::where('order_id', $request->input('order_id'))
+            ->where('product_id', $productId)
+            ->update(['is_reviewed' => true]);
+
+        return back()->with('success', 'Review added successfully.');
     }
 
     public function index()

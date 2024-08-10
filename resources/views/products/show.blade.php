@@ -38,33 +38,11 @@
     <div class="mt-12">
         <h2 class="text-2xl font-bold text-gray-800 mb-4">Additional Information</h2>
         <p class="text-gray-600 mb-4"><strong>Category:</strong> {{ $product->category->name }}</p>
-        <p class="text-gray-600 mb-4"><strong>Stock:</strong> {{ $product->stock > 0 ? 'In Stock' : 'Out of Stock' }}
+        <p class="text-gray-600 mb-4"><strong>Stock:</strong> {{ $product->stock > 0 ? $product->stock : 0 }}
         </p>
-        <p class="text-gray-600 mb-4"><strong>SKU:</strong> {{ $product->sku }}</p>
     </div>
 
-    <h3 class="text-2xl font-bold mb-4 mt-6">Leave a Review</h3>
 
-    <form action="{{ route('reviews.store', $product->id) }}" method="POST">
-        @csrf
-        <div class="mb-4">
-            <label for="rating" class="block text-gray-700">Rating:</label>
-            <select name="rating" id="rating" class="block w-full mt-1 rounded-md bg-gray-200 text-gray-800">
-                <option value="5">★★★★★</option>
-                <option value="4">★★★★☆</option>
-                <option value="3">★★★☆☆</option>
-                <option value="2">★★☆☆☆</option>
-                <option value="1">★☆☆☆☆</option>
-            </select>
-        </div>
-        <div class="mb-4">
-            <label for="review" class="block text-gray-700">Review:</label>
-            <textarea name="review" id="review" rows="4"
-                class="block w-full mt-1 rounded-md bg-gray-200 text-gray-800"></textarea>
-        </div>
-        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600">Submit
-            Review</button>
-    </form>
 
     <!-- Ratings Summary -->
     <div class="mt-6">
@@ -95,8 +73,10 @@
     </div>
 
     <!-- Reviews List -->
-    @if($product->reviews->count() > 0)
-    <div class="mt-6 space-y-6">
+    <div id="reviews-container" class="mt-6 space-y-6">
+        <h2 class="text-2xl font-bold mb-4">Customer Reviews</h2>
+
+        @if($product->reviews->count() > 0)
         @foreach($product->reviews as $review)
         <div class="bg-gray-100 p-4 rounded-lg shadow">
             <div class="flex items-center mb-2">
@@ -111,12 +91,61 @@
                 <small class="text-gray-500">Reviewed on {{ $review->created_at->format('M d, Y') }}</small>
             </div>
             @endforeach
+
+
+            @else
+            <p class="text-gray-500">No reviews yet.</p>
+            @endif
         </div>
-        @else
-        <p class="text-gray-500">No reviews yet.</p>
-        @endif
 
-
-
+        <div id="more-reviews" class="text-center mt-4">
+            @if ($totalReviews > 5)
+            <button id="load-more" data-page="1"
+                class="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600">
+                See more reviews
+            </button>
+            @endif
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const loadMoreButton = document.getElementById('load-more');
+        const reviewsContainer = document.getElementById('reviews-container');
+    
+        if (loadMoreButton) {
+            loadMoreButton.addEventListener('click', function() {
+                const page = parseInt(this.getAttribute('data-page')) + 1;
+                const productId = '{{ $product->id }}';
+    
+                fetch(`/product/${productId}/reviews?page=${page}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.reviews.length > 0) {
+                            data.reviews.forEach(review => {
+                                const reviewElement = document.createElement('div');
+                                reviewElement.classList.add('bg-gray-100', 'p-4', 'rounded-lg', 'shadow');
+                                reviewElement.innerHTML = `
+                                    <div class="flex items-center mb-2">
+                                        <div class="text-yellow-400">
+                                            ${'★'.repeat(review.rating)}
+                                            ${'☆'.repeat(5 - review.rating)}
+                                        </div>
+                                        <h4 class="ml-4 text-lg font-semibold">${review.user_name}</h4>
+                                    </div>
+                                    <p class="text-gray-600">${review.review}</p>
+                                    <small class="text-gray-500">Reviewed on ${review.created_at}</small>
+                                `;
+                                reviewsContainer.appendChild(reviewElement);
+                            });
+                            loadMoreButton.setAttribute('data-page', page);
+                        } else {
+                            loadMoreButton.remove();
+                        }
+                    })
+                    .catch(error => console.error('Error loading more reviews:', error));
+            });
+        }
+    });
+    </script>
     @endsection

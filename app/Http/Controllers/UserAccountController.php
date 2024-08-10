@@ -21,9 +21,9 @@ class UserAccountController extends Controller
 
     public function orders()
     {
-        $user = User::with(['addresses'])->findOrFail(auth()->id());
+        $user = User::with(['orders.items', 'addresses'])->findOrFail(auth()->id());
         $orders = $user->orders()->latest()->paginate(5);
-        return view('account.orders', compact('orders'));
+        return view('account.orders', compact('orders', 'user'));
     }
 
     public function wishlist()
@@ -32,7 +32,6 @@ class UserAccountController extends Controller
         $wishlist = $user->wishlist;
         return view('account.wishlist', compact('wishlist'));
     }
-
 
     public function edit()
     {

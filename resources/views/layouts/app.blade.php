@@ -12,6 +12,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
@@ -21,7 +24,7 @@
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-4">
                 <!-- Logo / Home -->
-                <a href="{{ url('/') }}" class="text-white text-lg font-semibold">
+                <a href="{{ url('/') }}" class="text-white text-xl font-bold mr-10">
                     ircStore
                 </a>
 
@@ -66,8 +69,8 @@
                             class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
                         <a href="{{ route('account.orders') }}"
                             class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Orders</a>
-                        <a href="{{ route('account.wishlist') }}"
-                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Wishlist</a>
+                        {{-- <a href="{{ route('account.wishlist') }}"
+                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Wishlist</a> --}}
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button type="submit"
@@ -85,12 +88,6 @@
         </div>
     </nav>
 
-    <script>
-        document.getElementById('userMenuButton').addEventListener('click', function() {
-            var menu = document.getElementById('userMenu');
-            menu.classList.toggle('hidden');
-        });
-    </script>
 
 
     <!-- Content -->
@@ -98,6 +95,14 @@
         @yield('content')
     </div>
 
+    @yield('scripts')
+
+    <script>
+        document.getElementById('userMenuButton').addEventListener('click', function() {
+            var menu = document.getElementById('userMenu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
 </body>
 
 </html>

@@ -57,7 +57,7 @@ class CheckoutController extends Controller
             'order_id_midtrans' => Str::uuid()->toString(),
             'user_id' => auth()->id(),
             'total' => $totalPrice,
-            'status' => 'pending',
+            'status' => 'waiting',
             'address_id' => $request->address_id,
             'shipping_method' => $request->shipping_method,
             'notes' => $request->notes,
@@ -65,12 +65,22 @@ class CheckoutController extends Controller
 
         // Menyimpan detail order (order items)
         foreach ($cartItems->items as $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-                'price' => $item->product->price,
-            ]);
+            // Kurangi stok produk
+            $product = $item->product;
+            if ($product->stock >= $item->quantity) {
+                $product->stock -= $item->quantity;
+                $product->save();
+
+                // Simpan detail order item
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item->product_id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->product->price,
+                ]);
+            } else {
+                return redirect()->route('cart.index')->with('error', 'Stock not available for some items.');
+            }
         }
 
         // Hapus cart setelah checkout

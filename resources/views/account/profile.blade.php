@@ -8,8 +8,6 @@
     </div>
     @endif
 
-    <h1 class="text-2xl font-semibold mb-6">User Details</h1>
-
     <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
         <h2 class="text-xl font-semibold mb-4">User Information</h2>
         @if ($user->photo)
@@ -124,21 +122,24 @@
     <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
         <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
         <p><strong>Total Orders:</strong> {{ $user->orders->count() }}</p>
-        <p><strong>Total Purchases:</strong> ${{ number_format($totalPurchases, 2) }}</p>
+        <p><strong>Total Purchases:</strong>${{ $user->totalPurchases() }}</p>
+        <a href="{{ route('account.orders') }}"
+            class="inline-block mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">View All
+            Orders</a>
     </div>
 
-    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+    {{-- <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
         <h2 class="text-xl font-semibold mb-4">Wishlist</h2>
         <p><strong>Total Wishlist Items:</strong> {{ $user->wishlistItems->count() }}</p>
-    </div>
+    </div> --}}
 
-    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+    {{-- <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
         <h2 class="text-xl font-semibold mb-4">Recent Activity</h2>
         @if($user->reviews->isNotEmpty())
         <p><strong>Last Review:</strong> {{ $lastReview->content ?? 'No reviews yet.' }}</p>
         @else
         <p>No recent activity.</p>
         @endif
-    </div>
+    </div> --}}
 </div>
 @endsection

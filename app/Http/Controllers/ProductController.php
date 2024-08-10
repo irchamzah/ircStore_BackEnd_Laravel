@@ -41,12 +41,42 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::with('reviews')->findOrFail($id);
+        $product = Product::with(['reviews' => function ($query) {
+            $query->orderBy('created_at', 'desc')->limit(5); // Ambil 5 review pertama
+        }])->findOrFail($id);
 
         // Menghitung rata-rata rating, jika ada ulasan
         $averageRating = $product->reviews->avg('rating');
         $averageRating = $averageRating ? round($averageRating, 1) : 0; // Membulatkan ke satu desimal
 
-        return view('products.show', compact('product', 'averageRating'));
+        // Ambil total review untuk pagination
+        $totalReviews = $product->reviews()->count();
+
+        return view('products.show', compact('product', 'averageRating', 'totalReviews'));
+    }
+
+    public function reviews($id)
+    {
+        $page = request()->query('page', 1);
+        $perPage = 5;
+        $skip = ($page - 1) * $perPage;
+
+        $product = Product::findOrFail($id);
+        $reviews = $product->reviews()
+            ->orderBy('created_at', 'desc')
+            ->skip($skip)
+            ->take($perPage)
+            ->get();
+
+        return response()->json([
+            'reviews' => $reviews->map(function ($review) {
+                return [
+                    'rating' => $review->rating,
+                    'user_name' => $review->user->name,
+                    'review' => $review->review,
+                    'created_at' => $review->created_at->format('M d, Y'),
+                ];
+            }),
+        ]);
     }
 }

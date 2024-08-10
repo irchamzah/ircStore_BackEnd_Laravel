@@ -77,4 +77,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
+
+    public function totalPurchases()
+    {
+        return $this->orders->flatMap(function ($order) {
+            return $order->items;
+        })->sum('price');
+    }
 }
