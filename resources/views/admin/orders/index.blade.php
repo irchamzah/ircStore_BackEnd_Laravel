@@ -77,8 +77,50 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="mt-4">
-                {{ $orders->links() }}
+            <!-- Paginasi -->
+            <div class="mt-20 flex justify-center">
+                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    @if ($orders->onFirstPage())
+                    <span
+                        class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-gray-200 border border-gray-300 cursor-not-allowed"
+                        aria-disabled="true">
+                        Previous
+                    </span>
+                    @else
+                    <a href="{{ $orders->previousPageUrl() . '&' . http_build_query(request()->except('page')) }}"
+                        class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-100">
+                        Previous
+                    </a>
+                    @endif
+
+                    @for ($i = 1; $i <= $orders->lastPage(); $i++)
+                        @if ($i == $orders->currentPage())
+                        <span
+                            class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 bg-blue-100 border border-blue-300 cursor-not-allowed"
+                            aria-current="page">
+                            {{ $i }}
+                        </span>
+                        @else
+                        <a href="{{ $orders->url($i) . '&' . http_build_query(request()->except('page')) }}"
+                            class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-100">
+                            {{ $i }}
+                        </a>
+                        @endif
+                        @endfor
+
+                        @if ($orders->hasMorePages())
+                        <a href="{{ $orders->nextPageUrl() . '&' . http_build_query(request()->except('page')) }}"
+                            class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-100">
+                            Next
+                        </a>
+                        @else
+                        <span
+                            class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-gray-200 border border-gray-300 cursor-not-allowed"
+                            aria-disabled="true">
+                            Next
+                        </span>
+                        @endif
+                </nav>
             </div>
         </div>
     </div>

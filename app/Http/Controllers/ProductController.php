@@ -32,7 +32,7 @@ class ProductController extends Controller
             $query->orderBy($request->input('sort_by'), 'asc');
         }
 
-        $products = $query->get();
+        $products = $query->paginate(12);
 
         $categories = Category::all();
 

@@ -14,13 +14,14 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Product Image -->
         <div>
-            <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-auto rounded-lg shadow-lg">
+            <img src="/images/{{ $product->image }}" alt="{{ $product->name }}"
+                class="w-full h-auto rounded-lg shadow-lg">
         </div>
 
         <!-- Product Details -->
         <div>
             <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ $product->name }}</h1>
-            <p class="text-gray-600 mb-4">{{ $product->description }}</p>
+            <p class="text-gray-600 mb-4">{!! $product->description !!}</p>
             <p class="text-2xl font-semibold text-gray-800 mb-6">${{ number_format($product->price, 2) }}</p>
 
             <!-- Add to Cart Button -->

@@ -3,21 +3,30 @@
 @section('title', 'Product Categories')
 
 @section('content')
-<div class="container mx-auto px-6 py-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-8">Product Categories</h1>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        @foreach ($categories as $category)
-        <div class="category-card bg-white p-6 rounded-lg shadow-lg">
-            <img src="{{ $category->image }}" alt="{{ $category->name }}" class="w-full h-48 object-cover mb-4 rounded">
-            <h2 class="text-xl font-semibold text-gray-800">{{ $category->name }}</h2>
-            <p class="text-gray-600 mt-2">{{ $category->description }}</p>
-            <a href="{{ route('search', ['category' =>$category->id]) }}"
-                class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
-                Explore Products
-            </a>
+<section>
+    <!-- Container -->
+    <div class="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-20">
+        <!-- Title -->
+        <div class="flex flex-col items-center text-center">
+            <h2 class="text-3xl font-bold md:text-4xl">All Categories</h2>
+            <p class="mb-8 mt-4 max-w-xl text-base text-gray-500 md:mb-12 md:text-lg lg:mb-16"></p>
         </div>
-        @endforeach
+        <!-- Features Content -->
+        <div class="grid gap-5 sm:grid-cols-2 md:grid-cols-3 md:gap-4 lg:gap-6">
+            <!-- Features Item -->
+
+            @foreach($categories as $category)
+            <a href="{{ route('search', ['category' =>$category->id]) }}">
+                <div class="grid gap-6 rounded-md border border-solid border-gray-300 p-8 md:p-10 hover:opacity-75">
+                    <img src="/images/categories/{{ $category->image }}" alt="{{ $category->name }}"
+                        class="inline-block h-16 w-16 object-cover rounded-full " />
+                    <h3 class="text-xl font-semibold">{{ $category->name }}</h3>
+                    <p class="text-sm text-gray-500">{{ $category->description }}</p>
+                </div>
+            </a>
+            @endforeach
+
+        </div>
     </div>
-</div>
+</section>
 @endsection

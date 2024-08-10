@@ -10,10 +10,11 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
     @yield('head')
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-100 font-sans">
     <div class="flex h-screen">
         <!-- Sidebar -->
         <aside class="w-64 bg-gray-800 text-white">

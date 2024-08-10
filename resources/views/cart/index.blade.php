@@ -11,7 +11,7 @@
     @endif
 
     @if(count($items) == 0)
-    <p>Your cart is empty!</p>
+    <div class="flex-1 h-[500px]">Your cart is empty!</div>
     @else
     <table class="w-full bg-white rounded-lg shadow-lg">
         <thead>
