@@ -45,7 +45,7 @@
                     <select name="address_id" id="address_id"
                         class="w-full px-4 py-2 border rounded-md bg-gray-200 text-gray-800">
                         @foreach($addresses as $address)
-                        <option value="{{ $address->id }}">{{ $address->address }}</option>
+                        <option value="{{ $address->id }}">{{ $address->full_address }}</option>
                         @endforeach
                     </select>
                 </div>

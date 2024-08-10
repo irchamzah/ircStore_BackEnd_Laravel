@@ -50,6 +50,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
 
+    Route::get('/order/{id}', [OrderController::class, 'show'])->name('order.show');
+    Route::post('/order/pay', [OrderController::class, 'pay'])->name('order.pay');
+    Route::post('/order/delete', [OrderController::class, 'delete'])->name('order.delete');
+    // Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
+    Route::get('/order/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
+    // Route::get('/checkout/complete', [OrderController::class, 'complete'])->name('checkout.complete');
+
     Route::get('/account/profile', [UserAccountController::class, 'profile'])->name('account.profile');
     Route::get('/account/edit', [UserAccountController::class, 'edit'])->name('account.profile.edit');
     Route::put('/account/update', [UserAccountController::class, 'update'])->name('account.profile.update');
@@ -61,13 +68,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('addresses/{id}', [AddressController::class, 'destroy'])->name('addresses.destroy');
     Route::get('addresses/{id}/edit', [AddressController::class, 'edit'])->name('addresses.edit');
 
-
-
     Route::post('/products/{id}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
-
-    Route::get('/order/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
-    Route::get('/checkout/complete', [OrderController::class, 'complete'])->name('checkout.complete');
 });
 
 Route::prefix('admin')->name('admin.')->middleware('auth', 'admin')->group(function () {

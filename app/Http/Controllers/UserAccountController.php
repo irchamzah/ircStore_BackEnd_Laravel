@@ -21,8 +21,8 @@ class UserAccountController extends Controller
 
     public function orders()
     {
-        $user = Auth::user();
-        $orders = $user->orders;
+        $user = User::with(['addresses'])->findOrFail(auth()->id());
+        $orders = $user->orders()->latest()->paginate(5);
         return view('account.orders', compact('orders'));
     }
 

@@ -70,9 +70,11 @@
     <div class="mt-6">
         <a href="{{ route('checkout.index') }}"
             class="bg-green-500 text-white px-6 py-3 rounded-lg shadow hover:bg-green-600">
-            Proceed to Checkout
+            Proceed to
+            Checkout
         </a>
     </div>
+
     @endif
 </div>
 @endsection

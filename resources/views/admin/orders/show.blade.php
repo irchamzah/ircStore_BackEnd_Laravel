@@ -11,7 +11,7 @@
         <p><strong>Order ID:</strong> {{ $order->id }}</p>
         <p><strong>Status:</strong> {{ $order->status }}</p>
         <p><strong>Order Date:</strong> {{ $order->created_at->format('d M Y, H:i') }}</p>
-        <p><strong>Total Price:</strong> ${{ number_format($order->total_price, 2) }}</p>
+        <p><strong>Total Price:</strong> ${{ number_format($order->total, 2) }}</p>
     </div>
 
     <div class="mb-6">

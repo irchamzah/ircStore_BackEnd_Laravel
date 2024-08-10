@@ -12,6 +12,8 @@
 
         <!-- Order Details -->
         <div class="mb-8">
+
+
             <h3 class="text-xl font-semibold mb-4">Order #{{ $order->id }}</h3>
 
             <div class="mb-6">
@@ -64,6 +66,13 @@
             <a href="{{ route('checkout.complete') }}"
                 class="px-6 py-3 bg-green-500 text-white rounded-lg shadow hover:bg-green-600">
                 Complete Order
+            </a>
+        </div>
+
+        <div class="mt-8 flex justify-start">
+            <a href="{{ route('order.destroy', $order->id) }}"
+                class="px-6 py-3 bg-red-500 text-white rounded-lg shadow hover:bg-red-600">
+                Cancel Order
             </a>
         </div>
     </div>

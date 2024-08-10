@@ -14,7 +14,7 @@
             <!-- Add more order details here -->
 
             <!-- Link to order confirmation -->
-            <a href="{{ route('order.confirm', ['order_id' => $order->id]) }}" class="text-blue-500 hover:underline">
+            <a href="{{ route('order.show',  $order->id) }}" class="text-blue-500 hover:underline">
                 View Order Details
             </a>
         </div>
@@ -22,5 +22,10 @@
         <p class="text-gray-500">You have no orders.</p>
         @endforelse
     </div>
+    <div class="mt-6">
+        {{ $orders->links() }}
+    </div>
 </div>
+
+
 @endsection

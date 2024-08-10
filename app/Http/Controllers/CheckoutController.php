@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
 {
@@ -10,11 +15,13 @@ class CheckoutController extends Controller
     {
         $cartItems = \App\Models\Cart::with('items.product')->where('user_id', auth()->id())->first();
 
+        $user = User::with(['addresses'])->findOrFail(auth()->id());
+
         // Mengambil alamat-alamat pengguna
-        $addresses = auth()->user()->addresses; // Pastikan user memiliki relasi ke alamat
+        $addresses = $user->addresses()->orderByDesc('is_primary')->get();
 
         // Mendapatkan metode pengiriman
-        $shippingMethods = ['Standard', 'Express', 'Next Day']; // Contoh metode pengiriman
+        $shippingMethods = ['Standard', 'Express', 'Next Day'];
 
         // Mendapatkan catatan dari session
         $note = session('checkout_note', '');
@@ -30,9 +37,45 @@ class CheckoutController extends Controller
 
     public function process(Request $request)
     {
-        // Logic for processing payment goes here
-        // E.g., saving order to the database, charging the card, etc.
+        $request->validate([
+            'address_id' => 'required|exists:addresses,id',
+            'shipping_method' => 'required|string',
+            'notes' => 'nullable|string',
+        ]);
 
-        return redirect()->route('home')->with('success', 'Your order has been placed successfully!');
+        $cartItems = Cart::with('items.product')->where('user_id', auth()->id())->first();
+
+        if (!$cartItems || $cartItems->items->isEmpty()) {
+            return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
+        }
+
+        // Menghitung total harga
+        $totalPrice = $cartItems->items->sum(fn($item) => $item->product->price * $item->quantity);
+
+        // Membuat Order baru
+        $order = Order::create([
+            'order_id_midtrans' => Str::uuid()->toString(),
+            'user_id' => auth()->id(),
+            'total' => $totalPrice,
+            'status' => 'pending',
+            'address_id' => $request->address_id,
+            'shipping_method' => $request->shipping_method,
+            'notes' => $request->notes,
+        ]);
+
+        // Menyimpan detail order (order items)
+        foreach ($cartItems->items as $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+                'price' => $item->product->price,
+            ]);
+        }
+
+        // Hapus cart setelah checkout
+        $cartItems->delete();
+
+        return redirect()->route('order.show', $order->id)->with('success', 'Your order has been placed successfully.');
     }
 }
