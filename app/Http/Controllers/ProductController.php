@@ -37,30 +37,34 @@ class ProductController extends Controller
 
         $categories = Category::all();
 
+        foreach ($products as $product) {
+            $product->averageRating = $product->reviews->avg('rating') ?? 0;
+            $product->reviewsCount = $product->reviews->count();
+        }
+
         return view('products.search', compact('products', 'categories'));
     }
 
     public function show($id)
     {
-        $product = Product::with(['reviews' => function ($query) {
-            $query->orderBy('created_at', 'desc')->limit(5); // Ambil 5 review pertama
-        }])->findOrFail($id);
+        // Ambil produk beserta semua ulasan untuk perhitungan rata-rata dan total ulasan
+        $product = Product::with('reviews')->findOrFail($id);
 
         // Menghitung rata-rata rating, jika ada ulasan
         $averageRating = $product->reviews->avg('rating');
         $averageRating = $averageRating ? round($averageRating, 1) : 0; // Membulatkan ke satu desimal
 
         // Menghitung jumlah ulasan untuk setiap rating (1-5)
-        $reviewsCount = $product->reviews->count();
+        $totalReviewsCount = $product->reviews->count(); // Total semua ulasan
         $ratingCounts = $product->reviews->groupBy('rating')->map(function ($ratingGroup) {
             return $ratingGroup->count();
         });
 
         // Menghitung persentase setiap rating
         $ratingPercentages = [];
-        if ($reviewsCount > 0) {
+        if ($totalReviewsCount > 0) {
             for ($i = 1; $i <= 5; $i++) {
-                $ratingPercentages[$i] = $ratingCounts->get($i, 0) / $reviewsCount * 100;
+                $ratingPercentages[$i] = $ratingCounts->get($i, 0) / $totalReviewsCount * 100;
             }
         } else {
             for ($i = 1; $i <= 5; $i++) {
@@ -68,8 +72,12 @@ class ProductController extends Controller
             }
         }
 
-        return view('products.show', compact('product', 'averageRating', 'ratingPercentages', 'reviewsCount'));
+        // Ambil 5 ulasan terbaru untuk ditampilkan
+        $latestReviews = $product->reviews->sortByDesc('created_at')->take(5);
+
+        return view('products.show', compact('product', 'averageRating', 'ratingPercentages', 'totalReviewsCount', 'latestReviews'));
     }
+
 
 
     public function reviews($id)

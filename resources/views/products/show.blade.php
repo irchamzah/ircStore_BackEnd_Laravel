@@ -1,9 +1,7 @@
 @extends('layouts.app')
-
 @section('title', $product->name)
 
 @section('content')
-
 @if(session('success'))
 <div class="bg-green-500 text-white p-4 rounded-lg shadow mb-6">
     {{ session('success') }}
@@ -49,7 +47,7 @@
                         <p class="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">
                             ({{ number_format($averageRating, 1) }})
                         </p>
-                        <a href="#reviews"
+                        <a href="#reviews-container"
                             class="text-sm font-medium leading-none text-gray-900 underline hover:no-underline dark:text-white">
                             {{ $product->reviews->count() }} {{ $product->reviews->count() == 1 ? 'Review' : 'Reviews'
                             }}
@@ -163,7 +161,7 @@
             <h2 class="text-2xl font-bold my-10 text-white">Customer Reviews</h2>
 
             @if($product->reviews->count() > 0)
-            @foreach($product->reviews as $review)
+            @foreach($latestReviews as $review)
             <div class="flex items-center my-4">
                 <img class="w-10 h-10 me-4 rounded-full" src="{{ Storage::url($review->user->photo) }}"
                     alt="{{ $review->user->photo }}">
@@ -198,7 +196,7 @@
 
         </article>
 
-        @if ($reviewsCount >= 5)
+        @if ($totalReviewsCount >= 5)
         <button id="load-more" data-page="1"
             class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read
             more</button>
@@ -206,7 +204,6 @@
 
     </div>
 </section>
-
 @endsection
 
 @section('scripts')
