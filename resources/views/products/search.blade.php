@@ -122,7 +122,7 @@
 
                     <div class="mt-4 flex flex-col justify-between gap-4">
                         <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rp.{{
-                            number_format($product->price, 2) }}</p>
+                            number_format($product->price, 0, ',', '.') }}</p>
 
                         <a href="{{ route('product.show', $product->id) }}"
                             class="inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 w-min text-nowrap">

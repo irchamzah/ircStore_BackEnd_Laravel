@@ -63,7 +63,7 @@
                                 <div class="text-end md:order-4 md:w-32">
                                     <p class="text-base font-bold text-gray-900 dark:text-white total-price"
                                         data-id="{{ $item->id }}" data-price="{{ $item->product->price }}">Rp.{{
-                                        $item->product->price * $item->quantity }}</p>
+                                        number_format($item->product->price * $item->quantity, 0, ',', '.') }}</p>
                                 </div>
                             </div>
 
@@ -185,7 +185,8 @@
                 success: function(response) {
                     if (response.success) {
                         let totalPrice = response.totalPrice;
-                        $(`.total-price[data-id=${itemId}]`).text(`Rp.${totalPrice.toFixed(2)}`);
+                        var formattedPrice = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(totalPrice);
+                        $(`.total-price[data-id=${itemId}]`).text(formattedPrice);
                     } else {
                         alert('Error updating cart.');
                     }
