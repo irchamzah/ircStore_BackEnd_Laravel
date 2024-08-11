@@ -18,13 +18,13 @@
         @forelse ($orders as $order)
 
         @php
-        $color = 'gray';
+        $color = 'bg-gray-500';
         if ($order->status == 'success') {
-        $color = 'green';
+        $color = 'bg-green-500';
         } elseif (in_array($order->status, ['pending', 'waiting_payment'])) {
-        $color = 'gray';
+        $color = 'bg-gray-500';
         } elseif ($order->status == 'cancel') {
-        $color = 'red';
+        $color = 'bg-red-500';
         }
         @endphp
 
@@ -33,7 +33,7 @@
             <p><strong>Total Items:</strong> {{ $order->items->count() }}</p>
             <p><strong>Total:</strong> ${{ number_format($order->total, 2) }}</p>
             <p><strong>Date:</strong> {{ $order->created_at->format('d M Y') }}</p>
-            <p><strong>Status:</strong> <span class="text-white bg-{{ $color }}-500 px-2">{{
+            <p><strong>Status:</strong> <span class="text-white {{ $color }} px-2">{{
                     $order->status }}</p>
             </span>
             <!-- Add more order details here -->

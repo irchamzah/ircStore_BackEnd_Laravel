@@ -5,7 +5,7 @@
 @section('content')
 
 <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-    <div class="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
+    <div class="mx-auto max-w-2xl px-4 2xl:px-0 py-8 sm:py-12 lg:max-w-7xl">
         <div class="flex flex-col">
             <div class="rounded-xl bg-white dark:bg-gray-800 p-6 shadow-lg">
                 <form action="{{ route('search') }}" method="GET">
