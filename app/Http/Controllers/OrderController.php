@@ -101,7 +101,7 @@ class OrderController extends Controller
         // Cek apakah snap_token sudah ada
         if (empty($order->snap_token)) {
             // Ambil Snap Token dari Midtrans
-            $snapToken = Snap::getSnapToken($params);
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
             $order->snap_token = $snapToken;
         }
 

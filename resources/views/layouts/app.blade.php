@@ -133,10 +133,10 @@
                                 <a href="{{ route('account.orders') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
                                     tabindex="-1" id="user-menu-item-1">Orders</a>
-                                <form action="{{ route('logout') }}" method="POST">
+                                <form action="{{ route('logout') }}" method="POST"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     @csrf
-                                    <button type="submit"
-                                        class="w-full text-left block px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</button>
+                                    <button type="submit" class="w-full text-left text-red-500">Logout</button>
                                 </form>
                             </div>
                             @else

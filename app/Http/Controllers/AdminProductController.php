@@ -11,7 +11,7 @@ class AdminProductController extends Controller
     public function index(Request $request)
     {
         $sortBy = $request->get('sort_by', 'name'); // Default sorting by name
-        $sortDirection = $request->get('sort_direction', 'asc'); // Default sorting direction is ascending
+        $sortDirection = $request->get('sort_direction', 'desc'); // Default sorting direction is ascending
         $search = $request->get('search'); // Get the search query
         $category = $request->get('category'); // Get the selected category
 

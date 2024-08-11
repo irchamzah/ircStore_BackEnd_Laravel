@@ -62,13 +62,14 @@
                 @foreach($order->items as $item)
                 <tr>
                     <td class="px-4 py-2">
-                        <img src="{{ $item->product->image }}" alt="{{ $item->product->name }}"
+                        <img src="/images/{{ $item->product->image }}" alt="{{ $item->product->name }}"
                             class="w-16 h-16 rounded">
                         <span>{{ $item->product->name }}</span>
                     </td>
                     <td class="px-4 py-2">{{ $item->quantity }}</td>
-                    <td class="px-4 py-2">${{ $item->product->price }}</td>
-                    <td class="px-4 py-2">${{ $item->product->price * $item->quantity }}</td>
+                    <td class="px-4 py-2">Rp.{{ number_format($item->product->price, 0, ',', '.') }}</td>
+                    <td class="px-4 py-2">Rp.{{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}
+                    </td>
                     <td class="px-4 py-2">
                         <!-- Tombol Lihat Product -->
                         <a href="{{ route('product.show', $item->product->id) }}"
@@ -84,7 +85,7 @@
 
         <!-- Order Total -->
         <div class="mt-6 text-right">
-            <h3 class="text-xl font-bold">Order Total: ${{ $order->total }}</h3>
+            <h3 class="text-xl font-bold">Order Total: Rp.{{ number_format($order->total, 0, ',', '.') }}</h3>
         </div>
 
 
@@ -151,7 +152,7 @@
         @foreach($order->items as $item)
         @if(!$item->is_reviewed)
         <h3 class="text-2xl font-bold mb-4 mt-6">Leave a Review for {{ $item->product->name }}</h3>
-        <img src="{{ $item->product->image }}" alt="" class="w-16 h-16 rounded">
+        <img src="/images/{{ $item->product->image }}" alt="" class="w-16 h-16 rounded">
         <form action="{{ route('reviews.store', $item->product_id) }}" method="POST">
             @csrf
             <input type="hidden" name="order_id" value="{{ $order->id }}">

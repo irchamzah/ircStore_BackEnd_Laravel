@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderPlaced;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
@@ -85,6 +87,9 @@ class CheckoutController extends Controller
 
         // Hapus cart setelah checkout
         $cartItems->delete();
+
+        // Kirim email pemberitahuan
+        Mail::to('irchamzah.fikri.ababil@gmail.com')->send(new OrderPlaced($order));
 
         return redirect()->route('order.show', $order->id)->with('success', 'Your order has been placed successfully.');
     }

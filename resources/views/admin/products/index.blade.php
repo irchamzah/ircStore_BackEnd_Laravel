@@ -93,7 +93,7 @@
                 </td>
                 <td class="px-4 py-2">{{ $product->name }}</td>
                 <td class="px-4 py-2">{{ $product->category->name }}</td>
-                <td class="px-4 py-2">${{ number_format($product->price, 2) }}</td>
+                <td class="px-4 py-2">Rp.{{ number_format($product->price, 0, ',', '.') }}</td>
                 <td class="px-4 py-2">{{ $product->stock }}</td>
                 <td class="px-4 py-2">
                     @if($product->is_featured)

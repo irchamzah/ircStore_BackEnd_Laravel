@@ -12,6 +12,7 @@ class AdminOrderController extends Controller
         $sortBy = $request->get('sort_by', 'created_at');
         $sortDirection = $request->get('sort_direction', 'desc');
         $search = $request->get('search');
+        $status = $request->get('status');
 
         $query = Order::with('user');
 
@@ -23,11 +24,16 @@ class AdminOrderController extends Controller
                 });
         }
 
+        if ($status) {
+            $query->where('status', $status);
+        }
+
         $orders = $query->orderBy($sortBy, $sortDirection)
             ->paginate(10);
 
         return view('admin.orders.index', compact('orders', 'sortBy', 'sortDirection'));
     }
+
 
     public function show(Order $order)
     {

@@ -17,7 +17,7 @@
 <body class="bg-gray-100 font-sans">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 bg-gray-800 text-white">
+        <aside class="w-64 bg-gray-800 text-white h-full">
             <div class="p-6">
                 <h2 class="text-2xl font-semibold">Admin Panel</h2>
                 <nav class="mt-8">
@@ -31,12 +31,10 @@
                                 class="block py-2 px-4 hover:bg-gray-700">Products</a>
                         </li>
                         <li>
-
                             <a href="{{ route('admin.categories.index') }}"
                                 class="block py-2 px-4 hover:bg-gray-700">Categories</a>
                         </li>
                         <li>
-
                             <a href="{{ route('admin.orders.index') }}"
                                 class="block py-2 px-4 hover:bg-gray-700">Orders</a>
                         </li>
@@ -46,7 +44,8 @@
                         </li>
                         <li>
                             <a href="{{ route('home') }}" class="block py-2 px-4 hover:bg-gray-700"
-                                target="_blank">Lihat Website</a>
+                                target="_blank">Lihat
+                                Website</a>
                         </li>
                         <!-- Tambahkan menu lainnya sesuai kebutuhan -->
                     </ul>
@@ -55,7 +54,7 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-6">
+        <main class="flex-1 p-6 overflow-y-auto">
             <header class="mb-6">
                 <div class="flex justify-between items-center">
                     <a href="{{ route('admin.users.show', Auth::user()->id) }}">
@@ -78,5 +77,6 @@
         </main>
     </div>
 </body>
+
 
 </html>

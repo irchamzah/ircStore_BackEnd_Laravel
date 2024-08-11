@@ -31,7 +31,7 @@
         <div class="mb-4 border-b border-gray-300 pb-4">
             <p><strong>Order ID:</strong> {{ $order->id }}</p>
             <p><strong>Total Items:</strong> {{ $order->items->count() }}</p>
-            <p><strong>Total:</strong> ${{ number_format($order->total, 2) }}</p>
+            <p><strong>Total:</strong> Rp.{{ number_format($order->total, 0, ',', '.') }}</p>
             <p><strong>Date:</strong> {{ $order->created_at->format('d M Y') }}</p>
             <p><strong>Status:</strong> <span class="text-white {{ $color }} px-2">{{
                     $order->status }}</p>

@@ -9,8 +9,8 @@ class AdminCategoryController extends Controller
 {
     public function index(Request $request)
     {
-        $sortBy = $request->get('sort_by', 'name'); // Default sorting by name
-        $sortDirection = $request->get('sort_direction', 'asc'); // Default sorting direction is ascending
+        $sortBy = $request->get('sort_by', 'id'); // Default sorting by name
+        $sortDirection = $request->get('sort_direction', 'desc'); // Default sorting direction is ascending
         $search = $request->get('search'); // Get the search query
 
         // Ambil kategori dengan sorting dan pencarian yang diinginkan
@@ -23,7 +23,7 @@ class AdminCategoryController extends Controller
         }
 
         $categories = $query->orderBy($sortBy, $sortDirection)
-            ->paginate(4); // Sesuaikan jumlah pagination jika diperlukan
+            ->paginate(10); // Sesuaikan jumlah pagination jika diperlukan
 
         return view('admin.categories.index', compact('categories', 'sortBy', 'sortDirection'));
     }

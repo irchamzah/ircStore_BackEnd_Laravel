@@ -53,6 +53,13 @@
         <ul>
             @foreach($user->addresses as $address)
             <li>
+                @if($address->isPrimary())
+                <h3>
+                    <strong>
+                        <span class="text-green-500 text-lg">Primary Address</span>
+                    </strong>
+                </h3>
+                @endif
                 <p><strong>Address:</strong> {{ $address->full_address }}</p>
                 <p><strong>City:</strong> {{ $address->city }}</p>
                 <p><strong>State:</strong> {{ $address->state }}</p>
@@ -69,10 +76,10 @@
     <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
         <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
         <p><strong>Total Orders:</strong> {{ $user->orders->count() }}</p>
-        <p><strong>Total Purchases:</strong> ${{ number_format($totalPurchases, 2) }}</p>
+        <p><strong>Total Purchases:</strong> Rp.{{ number_format($user->totalPurchases(), 0, ',', '.') }}</p>
     </div>
 
-    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+    {{-- <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
         <h2 class="text-xl font-semibold mb-4">Wishlist</h2>
         <p><strong>Total Wishlist Items:</strong> {{ $user->wishlistItems->count() }}</p>
     </div>
@@ -84,7 +91,7 @@
         @else
         <p>No recent activity.</p>
         @endif
-    </div>
+    </div> --}}
 
 </div>
 @endsection
