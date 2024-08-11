@@ -5,6 +5,7 @@
 
 @section('content')
 
+
 <section class="bg-white dark:bg-gray-900">
     <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
         <div class="mr-auto place-self-center lg:col-span-7">
@@ -34,121 +35,110 @@
     </div>
 </section>
 
+<section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
+    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+        <!-- Heading & Filters -->
+        <div class="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
+            <div>
 
-
-<div class="bg-white py-8">
-    <div class="container mx-auto px-6">
-
-
-
-        <!-- Featured Products Section -->
-        {{-- <div id="products" class="mb-12">
-            <h3 class="text-2xl font-bold text-gray-800 mb-6">Featured Products</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-                @foreach($featuredProducts as $product)
-                <div class="product-card bg-white p-6 rounded-lg shadow-lg">
-                    <img src="/images/{{ $product->image }}" alt="{{ $product->name }}"
-                        class="w-full h-48 object-cover mb-4 rounded">
-                    <h4 class="text-lg font-semibold text-gray-800">{{ $product->name }}</h4>
-                    <p class="text-gray-600 mt-2">Rp.{{ number_format($product->price, 2) }}</p>
-                    <a href="{{ route('product.show', $product->id) }}"
-                        class="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600">
-                        View Product
-                    </a>
-                </div>
-                @endforeach
-
-            </div>
-        </div> --}}
-
-        <div class="bg-white">
-            <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-
-                <div class="flex flex-col items-center text-center">
-                    <h2 class="text-3xl font-bold md:text-4xl">Featured Products</h2>
-                    <p class="mb-8 mt-4 max-w-xl text-base text-gray-500 md:mb-12 md:text-lg lg:mb-16"></p>
-                </div>
-
-                <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-
-                    @foreach($featuredProducts as $product)
-                    <a href="{{ route('product.show', $product->id) }}" class="group">
-                        <div
-                            class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                            <img src="/images/{{ $product->image }}" alt="{{ $product->name }}"
-                                class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <h3 class="mt-4 text-sm text-gray-700">{{ $product->name }}</h3>
-                        <p class="mt-1 text-lg font-medium text-gray-900">Rp.{{ number_format($product->price, 2) }}</p>
-                    </a>
-                    @endforeach
-
-                </div>
+                <h2 class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Featured Products</h2>
             </div>
         </div>
+        <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
 
-        <!-- Categories Section -->
-        {{-- <div class="mb-12">
-            <h3 class="text-2xl font-bold text-gray-800 mb-6">Shop by Category</h3>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-
-                @foreach($categories as $category)
-                <div class="category-card bg-gray-100 p-6 rounded-lg shadow-lg text-center">
-                    <img src="{{ $category->image_url }}" alt="{{ $category->name }}"
-                        class="w-full h-24 object-cover mb-4 rounded">
-                    <h4 class="text-lg font-semibold text-gray-800">{{ $category->name }}</h4>
-                    <a href="{{ route('search', ['category' =>$category->id]) }}"
-                        class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
-                        Explore
+            @foreach($featuredProducts as $product)
+            <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+                <div class="h-56 w-full">
+                    <a href="{{ route('product.show', $product->id) }}">
+                        <img class="mx-auto hidden h-full dark:block" src="/images/{{ $product->image }}"
+                            alt="{{ $product->name }}" />
                     </a>
                 </div>
-                @endforeach
+                <div class="pt-6 flex flex-col">
+                    <div>
+                        <a href="{{ route('product.show', $product->id) }}"
+                            class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">
+                            {{ $product->name }}</a>
+                    </div>
 
-            </div>
-        </div> --}}
+                    <div class="mt-2 flex items-center gap-2">
+                        <div class="flex items-center">
+                            @php
+                            $fullStars = floor($product->averageRating);
+                            $halfStar = $product->averageRating - $fullStars >= 0.5;
+                            @endphp
 
-        <section>
-            <!-- Container -->
-            <div class="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-20">
-                <!-- Title -->
-                <div class="flex flex-col items-center text-center">
-                    <h2 class="text-3xl font-bold md:text-4xl">Popular Categories</h2>
-                    <p class="mb-8 mt-4 max-w-xl text-base text-gray-500 md:mb-12 md:text-lg lg:mb-16"></p>
-                </div>
-                <!-- Features Content -->
-                <div class="grid gap-5 sm:grid-cols-2 md:grid-cols-3 md:gap-4 lg:gap-6">
-                    <!-- Features Item -->
+                            @for ($i = 0; $i < $fullStars; $i++) <i class="fas fa-star w-4 h-4 text-yellow-300"></i>
+                                @endfor
 
-                    @foreach($categories as $category)
-                    <a href="{{ route('search', ['category' =>$category->id]) }}">
-                        <div
-                            class="grid gap-6 rounded-md border border-solid border-gray-300 p-8 md:p-10 hover:opacity-75">
-                            <img src="/images/categories/{{ $category->image }}" alt="{{ $category->name }}"
-                                class="inline-block h-16 w-16 object-cover rounded-full " />
-                            <h3 class="text-xl font-semibold">{{ $category->name }}</h3>
-                            <p class="text-sm text-gray-500">{{ $category->description }}</p>
+                                @if($halfStar)
+                                <i class="fas fa-star-half-alt w-4 h-4 text-yellow-300"></i>
+                                @endif
+
+                                @for ($i = $fullStars + $halfStar; $i < 5; $i++) <i
+                                    class="far fa-star w-4 h-4 text-yellow-300"></i>
+                                    @endfor
                         </div>
-                    </a>
-                    @endforeach
 
+                        <p class="text-sm font-medium text-gray-900 dark:text-white">{{
+                            number_format($product->averageRating, 1) }}</p>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">({{ $product->reviewsCount }})
+                        </p>
+                    </div>
+
+                    <div class="mt-4 flex flex-col justify-between gap-4">
+                        <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rp.{{
+                            number_format($product->price, 2) }}</p>
+
+                        <a href="{{ route('product.show', $product->id) }}"
+                            class="inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 w-min text-nowrap">
+                            See Product
+                        </a>
+                    </div>
                 </div>
             </div>
-        </section>
+            @endforeach
 
-
-
-
-
-        <!-- Promotional Banner -->
-        {{-- <div class="promotion bg-blue-500 rounded-lg p-8 text-white text-center shadow-lg">
-            <h3 class="text-3xl font-bold">Special Offer!</h3>
-            <p class="mt-2">Get 50% off on selected items. Limited time only!</p>
-            <a href="#" class="mt-4 inline-block bg-white text-blue-500 px-4 py-2 rounded-lg shadow hover:bg-gray-200">
-                Shop Now
-            </a>
-        </div> --}}
-
+        </div>
     </div>
-</div>
+
+</section>
+
+<section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-16">
+    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+        <div class="mb-4 flex items-center justify-between gap-4 md:mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Popular Categories</h2>
+
+            <a href="{{ route('categories.index') }}" title=""
+                class="flex items-center text-base font-medium text-primary-700 hover:underline dark:text-primary-500">
+                See more categories
+                <svg class="ms-1 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 12H5m14 0-4 4m4-4-4-4" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+
+            @foreach($categories as $category)
+            <a href="{{ route('search', ['category' =>$category->id]) }}"
+                class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z">
+                    </path>
+                </svg>
+                <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $category->name }}</span>
+            </a>
+            @endforeach
+
+
+        </div>
+    </div>
+</section>
+
 @endsection

@@ -10,7 +10,6 @@
 </div>
 @endif
 
-
 <section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
     <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
         <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
@@ -117,7 +116,6 @@
     </div>
 </section>
 
-
 <section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
     <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
         <div class="flex items-center mb-2">
@@ -209,6 +207,9 @@
     </div>
 </section>
 
+@endsection
+
+@section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const loadMoreButton = document.getElementById('load-more');
@@ -256,7 +257,4 @@
         }
     });
 </script>
-
-
-
 @endsection
