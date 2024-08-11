@@ -36,6 +36,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/product/{id}/reviews', [ProductController::class, 'reviews'])->name('product.reviews');
+Route::get('/products/{id}/reviews', [ProductController::class, 'loadMoreReviews']);
+
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 

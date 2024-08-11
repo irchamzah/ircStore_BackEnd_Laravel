@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -49,11 +50,27 @@ class ProductController extends Controller
         $averageRating = $product->reviews->avg('rating');
         $averageRating = $averageRating ? round($averageRating, 1) : 0; // Membulatkan ke satu desimal
 
-        // Ambil total review untuk pagination
-        $totalReviews = $product->reviews()->count();
+        // Menghitung jumlah ulasan untuk setiap rating (1-5)
+        $reviewsCount = $product->reviews->count();
+        $ratingCounts = $product->reviews->groupBy('rating')->map(function ($ratingGroup) {
+            return $ratingGroup->count();
+        });
 
-        return view('products.show', compact('product', 'averageRating', 'totalReviews'));
+        // Menghitung persentase setiap rating
+        $ratingPercentages = [];
+        if ($reviewsCount > 0) {
+            for ($i = 1; $i <= 5; $i++) {
+                $ratingPercentages[$i] = $ratingCounts->get($i, 0) / $reviewsCount * 100;
+            }
+        } else {
+            for ($i = 1; $i <= 5; $i++) {
+                $ratingPercentages[$i] = 0;
+            }
+        }
+
+        return view('products.show', compact('product', 'averageRating', 'ratingPercentages', 'reviewsCount'));
     }
+
 
     public function reviews($id)
     {
@@ -78,5 +95,32 @@ class ProductController extends Controller
                 ];
             }),
         ]);
+    }
+
+    public function loadMoreReviews(Request $request, $id)
+    {
+        $page = $request->query('page', 1);
+
+        $product = Product::findOrFail($id);
+
+        $reviews = $product->reviews()
+            ->orderBy('created_at', 'desc')
+            ->skip(($page - 1) * 5)
+            ->take(5)
+            ->get()
+            ->map(function ($review) {
+                return [
+                    'user' => [
+                        'name' => $review->user->name,
+                        'photo' => Storage::url($review->user->photo),
+                        'created_at' => $review->user->created_at->toDateString(),
+                    ],
+                    'rating' => $review->rating,
+                    'review' => $review->review,
+                    'created_at' => $review->created_at->toDateString(),
+                ];
+            });
+
+        return response()->json(['reviews' => $reviews]);
     }
 }

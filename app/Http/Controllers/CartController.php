@@ -63,16 +63,31 @@ class CartController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Dapatkan cart berdasarkan user saat ini
         $cart = $this->getCart();
+
+        // Temukan item di dalam cart berdasarkan ID
         $cartItem = $cart->items()->where('id', $id)->first();
 
         if ($cartItem) {
+            // Perbarui kuantitas item
             $cartItem->quantity = $request->input('quantity');
             $cartItem->save();
+
+            // Hitung total harga baru
+            $totalPrice = $cartItem->product->price * $cartItem->quantity;
+
+            // Kirimkan respons JSON
+            return response()->json([
+                'success' => true,
+                'totalPrice' => $totalPrice
+            ]);
         }
 
-        return redirect()->route('cart.index')->with('success', 'Cart updated!');
+        // Kirimkan respons error jika item tidak ditemukan
+        return response()->json(['success' => false, 'message' => 'Item not found'], 404);
     }
+
 
     public function clear(Request $request)
     {

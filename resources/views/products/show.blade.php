@@ -10,135 +10,242 @@
 </div>
 @endif
 
-<div class="container mx-auto px-6 py-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Product Image -->
-        <div>
-            <img src="/images/{{ $product->image }}" alt="{{ $product->name }}"
-                class="w-full h-auto rounded-lg shadow-lg">
-        </div>
 
-        <!-- Product Details -->
-        <div>
-            <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ $product->name }}</h1>
-            <p class="text-gray-600 mb-4">{!! $product->description !!}</p>
-            <p class="text-2xl font-semibold text-gray-800 mb-6">${{ number_format($product->price, 2) }}</p>
+<section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
+    <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
+            <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
+                <img class="w-full dark:hidden" src="/images/{{ $product->image }}" alt="{{ $product->name }}" />
+                <img class="w-full hidden dark:block" src="/images/{{ $product->image }}" alt="{{ $product->name }}" />
+            </div>
 
-            <!-- Add to Cart Button -->
-            <form action="{{ route('cart.add', $product->id) }}" method="POST">
-                @csrf
-                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600">
-                    Add to Cart
-                </button>
-            </form>
+            <div class="mt-6 sm:mt-8 lg:mt-0">
+                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
+                    {{ $product->name }}
+                </h1>
+                <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
+                    <p class="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
+                        Rp.{{ number_format($product->price, 2) }}
+                    </p>
+
+                    <div class="flex items-center gap-2 mt-2 sm:mt-0">
+                        <div class="flex items-center gap-1">
+                            @php
+                            $fullStars = floor($averageRating);
+                            $halfStar = $averageRating - $fullStars >= 0.5;
+                            @endphp
+
+                            @for ($i = 0; $i < $fullStars; $i++) <i class="fas fa-star w-4 h-4 text-yellow-300"></i>
+                                @endfor
+
+                                @if($halfStar)
+                                <i class="fas fa-star-half-alt w-4 h-4 text-yellow-300"></i>
+                                @endif
+
+                                @for ($i = $fullStars + $halfStar; $i < 5; $i++) <i
+                                    class="far fa-star w-4 h-4 text-yellow-300"></i>
+                                    @endfor
+
+                        </div>
+                        <p class="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">
+                            ({{ number_format($averageRating, 1) }})
+                        </p>
+                        <a href="#reviews"
+                            class="text-sm font-medium leading-none text-gray-900 underline hover:no-underline dark:text-white">
+                            {{ $product->reviews->count() }} {{ $product->reviews->count() == 1 ? 'Review' : 'Reviews'
+                            }}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
+                    <a href="#" title=""
+                        class="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                        role="button">
+                        <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
+                        </svg>
+                        Add to favorites
+                    </a>
+
+                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="text-white mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center hover:opacity-80"
+                            role="button">
+                            <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
+                            </svg>
+
+                            Add to cart
+                        </button>
+                    </form>
+                </div>
+
+                <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="mb-6 font-medium text-gray-900 dark:text-white">Category</p>
+                        <a href="#"
+                            class="inline-flex items-center justify-center py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600  dark:hover:bg-gray-600">
+                            {{ $product->category->name }}
+                        </a>
+                    </div>
+                    <div>
+                        <p class="mb-6 font-medium text-gray-900 dark:text-white">Stock</p>
+                        <a href="#"
+                            class="inline-flex items-center justify-center py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600  dark:hover:bg-gray-600">
+                            {{ $product->stock > 0 ? $product->stock : 0 }}
+                        </a>
+                    </div>
+                </div>
+
+
+                <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
+
+                <p class="mb-6 text-gray-500 dark:text-gray-400">
+                    {!! $product->description !!}
+                </p>
+            </div>
         </div>
     </div>
+</section>
 
 
-    <!-- Additional Product Information -->
-    <div class="mt-12">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">Additional Information</h2>
-        <p class="text-gray-600 mb-4"><strong>Category:</strong> {{ $product->category->name }}</p>
-        <p class="text-gray-600 mb-4"><strong>Stock:</strong> {{ $product->stock > 0 ? $product->stock : 0 }}
-        </p>
-    </div>
+<section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
+    <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+        <div class="flex items-center mb-2">
 
-
-
-    <!-- Ratings Summary -->
-    <div class="mt-6">
-        <h2 class="text-2xl font-bold mb-4">Customer Reviews</h2>
-
-        <div class="text-yellow-400 text-lg">
-            <!-- Menggunakan Font Awesome -->
             @php
             $fullStars = floor($averageRating);
             $halfStar = $averageRating - $fullStars >= 0.5;
             @endphp
 
-            @for ($i = 0; $i < $fullStars; $i++) <i class="fas fa-star"></i>
+            @for ($i = 0; $i < $fullStars; $i++) <i class="fas fa-star w-4 h-4 text-yellow-300 me-1"></i>
                 @endfor
 
                 @if($halfStar)
-                <i class="fas fa-star-half-alt"></i>
+                <i class="fas fa-star-half-alt w-4 h-4 text-yellow-300 me-1"></i>
                 @endif
 
-                @for ($i = $fullStars + $halfStar; $i < 5; $i++) <i class="far fa-star"></i>
+                @for ($i = $fullStars + $halfStar; $i < 5; $i++) <i class="far fa-star w-4 h-4 text-yellow-300 me-1">
+                    </i>
                     @endfor
 
-                    <span class="text-gray-600">{{ $averageRating }} out of 5</span>
-                    <span class="text-gray-600">({{ $product->reviews->count() }} reviews)</span>
-
-
+                    <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">{{ $averageRating }}</p>
+                    <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">out of</p>
+                    <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">5</p>
         </div>
-    </div>
-
-    <!-- Reviews List -->
-    <div id="reviews-container" class="mt-6 space-y-6">
-        <h2 class="text-2xl font-bold mb-4">Customer Reviews</h2>
-
-        @if($product->reviews->count() > 0)
-        @foreach($product->reviews as $review)
-        <div class="bg-gray-100 p-4 rounded-lg shadow">
-            <div class="flex items-center mb-2">
-                <div class="text-yellow-400">
-                    @for ($i = 0; $i < $review->rating; $i++)
-                        ★
-                        @endfor
-                        @for ($i = $review->rating; $i < 5; $i++) ☆ @endfor </div>
-                            <h4 class="ml-4 text-lg font-semibold">{{ $review->user->name }}</h4>
-                </div>
-                <p class="text-gray-600">{{ $review->review }}</p>
-                <small class="text-gray-500">Reviewed on {{ $review->created_at->format('M d, Y') }}</small>
+        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $product->reviews->count() }} reviews
+        </p>
+        @for ($rating = 5; $rating >= 1; $rating--)
+        @if(isset($ratingPercentages[$rating]))
+        <div class="flex items-center mt-4">
+            <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $rating }}
+                star</a>
+            <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+                <div class="h-5 bg-yellow-300 rounded" style="width: {{ $ratingPercentages[$rating] }}%"></div>
             </div>
-            @endforeach
+            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{
+                number_format($ratingPercentages[$rating], 0) }}%</span>
+        </div>
+        @endif
+        @endfor
 
+
+        {{-- Reviews List --}}
+        <article id="reviews-container" class="py-8 md:py-16">
+
+            <h2 class="text-2xl font-bold my-10 text-white">Customer Reviews</h2>
+
+            @if($product->reviews->count() > 0)
+            @foreach($product->reviews as $review)
+            <div class="flex items-center my-4">
+                <img class="w-10 h-10 me-4 rounded-full" src="{{ Storage::url($review->user->photo) }}"
+                    alt="{{ $review->user->photo }}">
+                <div class="font-medium dark:text-white">
+                    <p>{{ $review->user->name }} <time datetime=""
+                            class="block text-sm text-gray-500 dark:text-gray-400">Joined
+                            on {{ $review->user->created_at->format('M d, Y') }}</time></p>
+                </div>
+            </div>
+            <div class="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
+
+                @for ($i = 0; $i < $review->rating; $i++)
+                    <i class="fas fa-star w-4 h-4 text-yellow-300 me-1"></i>
+                    @endfor
+                    @for ($i = $review->rating; $i < 5; $i++) <i class="far fa-star w-4 h-4 text-yellow-300 me-1">
+                        </i> @endfor
+                        <div></div>
+            </div>
+
+
+
+            <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400">
+                <p>Reviewed on <time datetime="">{{ $review->created_at->format('M d, Y') }}</time></p>
+            </footer>
+            <p class="mb-4 text-gray-500 dark:text-gray-400">{{ $review->review }}</p>
+            <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
+            @endforeach
 
             @else
             <p class="text-gray-500">No reviews yet.</p>
             @endif
-        </div>
 
-        <div id="more-reviews" class="text-center mt-4">
-            @if ($totalReviews > 5)
-            <button id="load-more" data-page="1"
-                class="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600">
-                See more reviews
-            </button>
-            @endif
-        </div>
+        </article>
+
+        @if ($reviewsCount >= 5)
+        <button id="load-more" data-page="1"
+            class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read
+            more</button>
+        @endif
+
     </div>
+</section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
         const loadMoreButton = document.getElementById('load-more');
         const reviewsContainer = document.getElementById('reviews-container');
     
         if (loadMoreButton) {
             loadMoreButton.addEventListener('click', function() {
-                const page = parseInt(this.getAttribute('data-page')) + 1;
+                const page = parseInt(this.getAttribute('data-page'), 10) + 1;
                 const productId = '{{ $product->id }}';
     
-                fetch(`/product/${productId}/reviews?page=${page}`)
+                fetch(`/products/${productId}/reviews?page=${page}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.reviews.length > 0) {
                             data.reviews.forEach(review => {
                                 const reviewElement = document.createElement('div');
-                                reviewElement.classList.add('bg-gray-100', 'p-4', 'rounded-lg', 'shadow');
+    
                                 reviewElement.innerHTML = `
-                                    <div class="flex items-center mb-2">
-                                        <div class="text-yellow-400">
-                                            ${'★'.repeat(review.rating)}
-                                            ${'☆'.repeat(5 - review.rating)}
-                                        </div>
-                                        <h4 class="ml-4 text-lg font-semibold">${review.user_name}</h4>
+                                <div class="flex items-center my-4">
+                                    <img class="w-10 h-10 me-4 rounded-full" src="${review.user.photo}" alt="${review.user.name}">
+                                    <div class="font-medium dark:text-white">
+                                        <p>${review.user.name} <time datetime="" class="block text-sm text-gray-500 dark:text-gray-400">Joined on ${new Date(review.user.created_at).toLocaleDateString()}</time></p>
                                     </div>
-                                    <p class="text-gray-600">${review.review}</p>
-                                    <small class="text-gray-500">Reviewed on ${review.created_at}</small>
+                                </div>
+                                    <div class="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
+                                        ${'<i class="fas fa-star w-4 h-4 text-yellow-300 me-1"></i>'.repeat(review.rating)}
+                                        ${'<i class="far fa-star w-4 h-4 text-yellow-300 me-1"></i>'.repeat(5 - review.rating)}
+                                    </div>
+                                    <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400">
+                                        <p>Reviewed on <time datetime="">${new Date(review.created_at).toLocaleDateString()}</time></p>
+                                    </footer>
+                                    <p class="mb-4 text-gray-500 dark:text-gray-400">${review.review}</p>
+                                    <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
                                 `;
                                 reviewsContainer.appendChild(reviewElement);
                             });
+    
                             loadMoreButton.setAttribute('data-page', page);
                         } else {
                             loadMoreButton.remove();
@@ -148,5 +255,8 @@
             });
         }
     });
-    </script>
-    @endsection
+</script>
+
+
+
+@endsection
