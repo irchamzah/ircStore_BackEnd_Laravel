@@ -3,9 +3,142 @@
 @section('title', 'Dashboard')
 
 @section('content')
+{{-- CONTENT --}}
 <div class="bg-white p-6 rounded-lg shadow-lg my-10">
     <p>Selamat datang, {{ Auth::user()->name }}</p>
+
+    <!-- Overview Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+        <div class="bg-blue-100 p-4 rounded-lg shadow-md">
+            <h3 class="text-xl font-bold">Total Pengguna</h3>
+            <p class="text-3xl">{{ $totalUsers }}</p>
+        </div>
+        <div class="bg-green-100 p-4 rounded-lg shadow-md">
+            <h3 class="text-xl font-bold">Pesanan Baru</h3>
+            <p class="text-3xl">{{ $newOrders }}</p>
+        </div>
+        <div class="bg-yellow-100 p-4 rounded-lg shadow-md">
+            <h3 class="text-xl font-bold">Pendapatan</h3>
+            <p class="text-3xl">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</p>
+        </div>
+        <div class="bg-red-100 p-4 rounded-lg shadow-md">
+            <h3 class="text-xl font-bold">Produk Terlaris</h3>
+            <p class="text-3xl">{{ $topSellingProductName }}</p>
+        </div>
+    </div>
+
+    <!-- Recent Activities -->
+    <div class="bg-white p-6 mt-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold">Aktivitas Terbaru</h2>
+        <ul class="mt-4">
+            <li>Pesanan Terbaru:
+                @if($recentOrder)
+                <a class="text-blue-600 underline hover:text-blue-800"
+                    href="{{ route('admin.orders.show', $recentOrder->id) }}">
+                    ID:{{ $recentOrder->id }} oleh {{ $recentOrder->user->name }}
+                </a>
+                @else
+                Tidak ada pesanan terbaru.
+                @endif
+            </li>
+            <li>Ulasan Terbaru:
+                @if($recentReview)
+                <a class="text-blue-600 underline hover:text-blue-800"
+                    href="{{ route('admin.products.show', $recentReview->product->id) }}">
+                    {{ $recentReview->rating }} bintang oleh {{ $recentReview->user->name }} untuk produk {{
+                    $recentReview->product->name }}
+                </a>
+                @else
+                Tidak ada ulasan terbaru.
+                @endif
+            </li>
+            <li>Pengguna Baru:
+                @if($recentUser)
+                {{ $recentUser->name }} ({{ $recentUser->created_at->format('d M Y') }})
+                @else
+                Tidak ada pengguna baru.
+                @endif
+            </li>
+        </ul>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="bg-white p-6 mt-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold">Aksi Cepat</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+            <a href="{{ route('admin.products.create') }}"
+                class="bg-blue-500 text-white p-4 rounded-lg text-center hover:bg-blue-600">Tambah Produk Baru</a>
+            <a href="{{ route('admin.categories.index') }}"
+                class="bg-green-500 text-white p-4 rounded-lg text-center hover:bg-green-600">Manajemen Kategori</a>
+            <a href="{{ route('admin.orders.index') }}"
+                class="bg-yellow-500 text-white p-4 rounded-lg text-center hover:bg-yellow-600">Lihat Pesanan</a>
+            <a href="{{ route('admin.users.index') }}"
+                class="bg-red-500 text-white p-4 rounded-lg text-center hover:bg-red-600">Manajemen Pengguna</a>
+            <a href="#" class="bg-purple-500 text-white p-4 rounded-lg text-center hover:bg-purple-600">Laporan
+                Keuangan</a>
+            <a href="#" class="bg-orange-500 text-white p-4 rounded-lg text-center hover:bg-orange-600">Statistik
+                Penjualan</a>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="bg-white p-6 mt-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold">Notifikasi</h2>
+        <ul class="mt-4">
+            <li>Pesanan yang Perlu Diproses: {{ $ordersToProcess }}</li>
+            <li>Produk dengan Stok Rendah: {{ $lowStockProducts }}</li>
+            <li>Ulasan dengan rating kurang dari 3: <strong>{{ $reviewsToReview }} reviews</strong></li>
+        </ul>
+    </div>
+
+    <!-- Charts & Graphs -->
+    <div class="bg-white p-6 mt-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold">Grafik & Diagram</h2>
+        <div id="salesChart" class="mt-4">[Grafik Penjualan]</div>
+        <div id="visitorChart" class="mt-4">[Grafik Tren Pengunjung]</div>
+        <div id="productCategoryChart" class="mt-4">[Diagram Kategori Produk Terlaris]</div>
+    </div>
+
+    <!-- User Feedback -->
+    <div class="bg-white p-6 mt-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold">Feedback Pengguna</h2>
+        <ul class="mt-4 list-disc list-inside">
+            @if($latestFeedback->isNotEmpty())
+            @foreach($latestFeedback as $feedback)
+            <li>
+                {{ $feedback->user->name }} memberikan rating {{ $feedback->rating }} bintang untuk
+                <a class="text-blue-600 underline hover:text-blue-800"
+                    href="{{ route('admin.products.show', $feedback->product->id) }}">{{ $feedback->product->name }}</a>
+            </li>
+            @endforeach
+            @else
+            <li>Tidak ada feedback terbaru.</li>
+            @endif
+            <br>
+            <div>
+                Rangkuman Rating Produk:
+                <ul class="list-disc list-inside">
+                    @foreach($productRatingsSummary as $summary)
+                    <li>{{ $summary->name }}: Rata-rata <strong>{{ number_format($summary->avg_rating, 1) }}</strong>
+                        bintang</li>
+                    @endforeach
+                </ul>
+            </div>
+        </ul>
+    </div>
+
+    <!-- System Status -->
+    <div class="bg-white p-6 mt-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold">Status Sistem</h2>
+        <ul class="mt-4">
+            <li>Status Server: {{ $serverStatus }}</li>
+            <li>Log Error: {{ $errorLogs }}</li>
+        </ul>
+    </div>
 </div>
+
+
+{{-- TODO --}}
 
 <div class="bg-white p-6 rounded-lg shadow-lg grid grid-cols-3">
     <div>

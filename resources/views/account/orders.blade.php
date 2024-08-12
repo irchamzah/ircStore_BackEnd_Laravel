@@ -25,6 +25,8 @@
         $color = 'bg-gray-500';
         } elseif ($order->status == 'cancel') {
         $color = 'bg-red-500';
+        }elseif ($order->status == 'completed') {
+        $color = 'bg-blue-500';
         }
         @endphp
 

@@ -63,7 +63,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/order/updateStatus', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
     // Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
     Route::get('/order/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
-    // Route::get('/checkout/complete', [OrderController::class, 'complete'])->name('checkout.complete');
+    Route::post('/order/{order}/complete', [OrderController::class, 'complete'])->name('order.complete');
 
     Route::get('/order/finish', [OrderController::class, 'finish'])->name('order.finish');
     Route::get('/order/unfinish', [OrderController::class, 'unfinish'])->name('order.unfinish');

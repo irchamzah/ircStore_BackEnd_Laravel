@@ -29,7 +29,7 @@ class AdminOrderController extends Controller
         }
 
         $orders = $query->orderBy($sortBy, $sortDirection)
-            ->paginate(10);
+            ->paginate(15);
 
         return view('admin.orders.index', compact('orders', 'sortBy', 'sortDirection'));
     }

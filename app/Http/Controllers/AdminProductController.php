@@ -32,7 +32,7 @@ class AdminProductController extends Controller
         }
 
         $products = $query->orderBy($sortBy, $sortDirection)
-            ->paginate(5); // Sesuaikan jumlah pagination jika diperlukan
+            ->paginate(10); // Sesuaikan jumlah pagination jika diperlukan
 
         $categories = Category::all();
 
@@ -131,7 +131,7 @@ class AdminProductController extends Controller
     public function destroy(Product $product)
     {
         if ($product->image) {
-            unlink(public_path('images/' . $product->image));
+            unlink(public_path('images/products' . $product->image));
         }
 
         $product->delete();

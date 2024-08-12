@@ -38,7 +38,7 @@ class AdminUserController extends Controller
             $query->whereDate('created_at', '<=', $endDate);
         }
 
-        $users = $query->orderBy($sortBy, $sortDirection)->paginate(5);
+        $users = $query->orderBy($sortBy, $sortDirection)->paginate(10);
         $roles = User::select('role')->distinct()->pluck('role');
 
         return view('admin.users.index', compact('users', 'roles', 'sortBy', 'sortDirection'));
@@ -94,7 +94,7 @@ class AdminUserController extends Controller
         if ($user->photo) {
             // Cek apakah image adalah URL lengkap
             if (!filter_var($user->photo, FILTER_VALIDATE_URL)) {
-                $imagePath = public_path('images/categories/' . $user->photo);
+                $imagePath = public_path('images/profiles/' . $user->photo);
 
                 // Cek apakah file benar-benar ada di path tersebut
                 if (file_exists($imagePath)) {

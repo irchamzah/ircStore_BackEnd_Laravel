@@ -86,7 +86,7 @@
 
             @if ($user->photo)
             <div class="mb-2">
-                <img src="{{ Storage::url($user->photo) }}" alt="Profile Photo" class="w-32 h-32 rounded-full">
+                <img src="/images/profiles/{{ $user->photo }}" alt="Profile Photo" class="w-32 h-32 rounded-full">
             </div>
             @endif
 

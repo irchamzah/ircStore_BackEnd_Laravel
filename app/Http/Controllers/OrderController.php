@@ -216,13 +216,18 @@ class OrderController extends Controller
         }
     }
 
-    // public function confirm(Request $request)
-    // {
-    //     $orderId = $request->query('order_id');
-    //     $order = $this->getOrderDetails($orderId);
+    public function complete(Order $order)
+    {
+        if ($order->status == 'success') {
+            $order->status = 'completed';
+            $order->save();
 
-    //     return view('order.confirm', compact('order'));
-    // }
+            return redirect()->back()->with('success', 'Pesanan telah diselesaikan.');
+        }
+
+        return redirect()->back()->with('error', 'Pesanan tidak dapat diselesaikan.');
+    }
+
 
     // private function getOrderDetails($orderId)
     // {

@@ -178,7 +178,16 @@
         </form>
         @endif
         @endforeach
+
+        <!-- Tambahkan Tombol Selesaikan Pesanan -->
+        <form action="{{ route('order.complete', $order->id) }}" method="POST" class="mt-6">
+            @csrf
+            <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-md shadow hover:bg-green-600">
+                Selesaikan Pesanan
+            </button>
+        </form>
         @endif
+
 
 
 
