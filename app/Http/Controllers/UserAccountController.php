@@ -56,11 +56,14 @@ class UserAccountController extends Controller
         $data = $request->only(['name', 'email', 'phone_number', 'date_of_birth', 'status']);
 
         if ($request->hasFile('photo')) {
-            if ($user->photo) {
-                Storage::delete($user->photo);
+            if ($user->photo && file_exists(public_path('images/profiles/' . $user->photo))) {
+                unlink(public_path('images/profiles/' . $user->photo));
             }
-            $path = $request->file('photo')->store('profile_photos');
-            $data['photo'] = $path;
+
+            // Upload foto baru
+            $imageName = time() . '.' . $request->photo->extension();
+            $request->photo->move(public_path('images/profiles'), $imageName);
+            $user->photo = $imageName;
         }
 
         $user->update($data);

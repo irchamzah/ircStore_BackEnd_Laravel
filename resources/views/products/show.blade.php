@@ -12,8 +12,10 @@
     <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
         <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
             <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
-                <img class="w-full dark:hidden" src="/images/{{ $product->image }}" alt="{{ $product->name }}" />
-                <img class="w-full hidden dark:block" src="/images/{{ $product->image }}" alt="{{ $product->name }}" />
+                <img class="w-full dark:hidden" src="/images/products/{{ $product->image }}"
+                    alt="{{ $product->name }}" />
+                <img class="w-full hidden dark:block" src="/images/products/{{ $product->image }}"
+                    alt="{{ $product->name }}" />
             </div>
 
             <div class="mt-6 sm:mt-8 lg:mt-0">
@@ -163,7 +165,7 @@
             @if($product->reviews->count() > 0)
             @foreach($latestReviews as $review)
             <div class="flex items-center my-4">
-                <img class="w-10 h-10 me-4 rounded-full" src="{{ Storage::url($review->user->photo) }}"
+                <img class="w-10 h-10 me-4 rounded-full" src="/images/profiles/{{ $review->user->photo }}"
                     alt="{{ $review->user->photo }}">
                 <div class="font-medium dark:text-white">
                     <p>{{ $review->user->name }} <time datetime=""
@@ -226,7 +228,7 @@
     
                                 reviewElement.innerHTML = `
                                 <div class="flex items-center my-4">
-                                    <img class="w-10 h-10 me-4 rounded-full" src="${review.user.photo}" alt="${review.user.name}">
+                                    <img class="w-10 h-10 me-4 rounded-full" src="/images/profiles/${review.user.photo}" alt="${review.user.name}">
                                     <div class="font-medium dark:text-white">
                                         <p>${review.user.name} <time datetime="" class="block text-sm text-gray-500 dark:text-gray-400">Joined on ${new Date(review.user.created_at).toLocaleDateString()}</time></p>
                                     </div>

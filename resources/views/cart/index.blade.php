@@ -29,7 +29,8 @@
                         <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
 
                             <a href="{{ route('product.show', $item->product->id) }}" class="shrink-0 md:order-1">
-                                <img class="hidden h-20 w-20 dark:block" src="/images/{{ $item->product->image }}"
+                                <img class="hidden h-20 w-20 dark:block"
+                                    src="/images/products/{{ $item->product->image }}"
                                     alt="{{ $item->product->name }}" />
                             </a>
 

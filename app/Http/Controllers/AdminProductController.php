@@ -10,8 +10,8 @@ class AdminProductController extends Controller
 {
     public function index(Request $request)
     {
-        $sortBy = $request->get('sort_by', 'name'); // Default sorting by name
-        $sortDirection = $request->get('sort_direction', 'desc'); // Default sorting direction is ascending
+        $sortBy = $request->get('sort_by', 'id'); // Default sorting by name
+        $sortDirection = $request->get('sort_direction', 'asc'); // Default sorting direction is ascending
         $search = $request->get('search'); // Get the search query
         $category = $request->get('category'); // Get the selected category
 
@@ -70,7 +70,7 @@ class AdminProductController extends Controller
         // Menangani upload gambar jika ada
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
+            $request->image->move(public_path('images/products'), $imageName);
             $product->image = $imageName;
         }
 
@@ -111,13 +111,13 @@ class AdminProductController extends Controller
         // Handle image upload
         if ($request->hasFile('image')) {
             // Hapus foto sebelumnya jika ada
-            if ($product->image && file_exists(public_path('images/' . $product->image))) {
-                unlink(public_path('images/' . $product->image));
+            if ($product->image && file_exists(public_path('images/products' . $product->image))) {
+                unlink(public_path('images/products' . $product->image));
             }
 
             // Upload foto baru
             $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
+            $request->image->move(public_path('images/products'), $imageName);
             $product->image = $imageName;
         }
 

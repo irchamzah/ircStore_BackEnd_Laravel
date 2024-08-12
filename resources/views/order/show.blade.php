@@ -62,7 +62,7 @@
                 @foreach($order->items as $item)
                 <tr>
                     <td class="px-4 py-2">
-                        <img src="/images/{{ $item->product->image }}" alt="{{ $item->product->name }}"
+                        <img src="/images/products/{{ $item->product->image }}" alt="{{ $item->product->name }}"
                             class="w-16 h-16 rounded">
                         <span>{{ $item->product->name }}</span>
                     </td>
@@ -152,7 +152,7 @@
         @foreach($order->items as $item)
         @if(!$item->is_reviewed)
         <h3 class="text-2xl font-bold mb-4 mt-6">Leave a Review for {{ $item->product->name }}</h3>
-        <img src="/images/{{ $item->product->image }}" alt="" class="w-16 h-16 rounded">
+        <img src="/images/products/{{ $item->product->image }}" alt="" class="w-16 h-16 rounded">
         <form action="{{ route('reviews.store', $item->product_id) }}" method="POST">
             @csrf
             <input type="hidden" name="order_id" value="{{ $order->id }}">

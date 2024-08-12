@@ -76,7 +76,7 @@
 
                 <tr>
                     <td class="px-4 py-2">
-                        <img src="/images/{{ $item->product->image }}" alt="{{ $item->product->name }}"
+                        <img src="/images/products/{{ $item->product->image }}" alt="{{ $item->product->name }}"
                             class="w-16 h-16 rounded">
                         <span>{{ $item->product->name }}</span>
                     </td>

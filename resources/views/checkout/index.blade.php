@@ -71,7 +71,7 @@
 
                         @foreach($cartItems as $item)
                         <dl class="flex items-center justify-between gap-4 py-3">
-                            <img src="/images/{{ $item->product->image }}" alt="{{ $item->product->name }}"
+                            <img src="/images/products/{{ $item->product->image }}" alt="{{ $item->product->name }}"
                                 class="w-16 h-16 rounded">
                             <dt class="text-base font-normal text-gray-500 dark:text-gray-400">{{ $item->product->name
                                 }}</dt>

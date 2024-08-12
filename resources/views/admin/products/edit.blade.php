@@ -87,7 +87,7 @@
             <input type="file" name="image" id="image" class="px-4 py-2 w-full border border-gray-300 rounded-lg">
             @if($product->image)
             <div class="mt-2">
-                <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}"
+                <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}"
                     class="w-32 h-32 object-cover rounded">
             </div>
             @endif

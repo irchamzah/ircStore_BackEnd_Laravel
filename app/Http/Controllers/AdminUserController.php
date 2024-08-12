@@ -72,16 +72,14 @@ class AdminUserController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            // Hapus foto lama jika ada
-            if ($user->photo) {
-                Storage::disk('public')->delete($user->photo);
+            if ($user->photo && file_exists(public_path('images/profiles/' . $user->photo))) {
+                unlink(public_path('images/profiles/' . $user->photo));
             }
 
-            // Simpan foto baru dan ambil path-nya
-            $path = $request->file('photo')->store('profile_photos', 'public');
-
-            // Simpan path ke dalam variabel $validated
-            $validated['photo'] = $path;
+            // Upload foto baru
+            $imageName = time() . '.' . $request->photo->extension();
+            $request->photo->move(public_path('images/profiles'), $imageName);
+            $user->photo = $imageName;
         }
 
 
@@ -93,9 +91,16 @@ class AdminUserController extends Controller
 
     public function destroy(User $user)
     {
-        // Hapus foto profil dari storage jika ada
         if ($user->photo) {
-            Storage::disk('public')->delete($user->photo);
+            // Cek apakah image adalah URL lengkap
+            if (!filter_var($user->photo, FILTER_VALIDATE_URL)) {
+                $imagePath = public_path('images/categories/' . $user->photo);
+
+                // Cek apakah file benar-benar ada di path tersebut
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
         }
 
         // Hapus user dari database

@@ -102,7 +102,15 @@ class AdminCategoryController extends Controller
     public function destroy(Category $category)
     {
         if ($category->image) {
-            unlink(public_path('images/categories/' . $category->image));
+            // Cek apakah image adalah URL lengkap
+            if (!filter_var($category->image, FILTER_VALIDATE_URL)) {
+                $imagePath = public_path('images/categories/' . $category->image);
+
+                // Cek apakah file benar-benar ada di path tersebut
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
         }
 
         $category->delete();

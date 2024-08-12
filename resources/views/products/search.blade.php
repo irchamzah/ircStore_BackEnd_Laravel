@@ -84,7 +84,7 @@
             <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                 <div class="h-56 w-full">
                     <a href="{{ route('product.show', $product->id) }}">
-                        <img class="mx-auto hidden h-full dark:block" src="/images/{{ $product->image }}"
+                        <img class="mx-auto hidden h-full dark:block" src="/images/products/{{ $product->image }}"
                             alt="{{ $product->name }}" />
                     </a>
                 </div>

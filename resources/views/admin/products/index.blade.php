@@ -88,7 +88,7 @@
             <tr class="text-center">
                 <td class="px-4 py-2">{{ $products->firstItem() + $index }}</td>
                 <td class="px-4 py-2">
-                    <img src="/images/{{ $product->image }}" alt="{{ $product->name }}"
+                    <img src="/images/products/{{ $product->image }}" alt="{{ $product->name }}"
                         class="w-16 h-16 rounded mx-auto">
                 </td>
                 <td class="px-4 py-2">{{ $product->name }}</td>
