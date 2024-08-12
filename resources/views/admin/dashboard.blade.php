@@ -94,10 +94,20 @@
     <!-- Charts & Graphs -->
     <div class="bg-white p-6 mt-6 rounded-lg shadow-lg">
         <h2 class="text-2xl font-bold">Grafik & Diagram</h2>
-        <div id="salesChart" class="mt-4">[Grafik Penjualan]</div>
-        <div id="visitorChart" class="mt-4">[Grafik Tren Pengunjung]</div>
-        <div id="productCategoryChart" class="mt-4">[Diagram Kategori Produk Terlaris]</div>
+        <div class="flex flex-wrap justify-between">
+            <div class="w-full md:w-1/2 px-2">
+                <canvas id="salesChart" class="mt-4"></canvas>
+            </div>
+            <div class="w-full md:w-1/2 px-2">
+                <canvas id="visitorChart" class="mt-4"></canvas>
+            </div>
+            <div class="w-full md:w-1/3 px-2">
+                <canvas id="productCategoryChart" class="mt-4"></canvas>
+            </div>
+        </div>
     </div>
+
+
 
     <!-- User Feedback -->
     <div class="bg-white p-6 mt-6 rounded-lg shadow-lg">
@@ -272,4 +282,73 @@
         <br>
     </div>
 </div>
+@endsection
+
+
+@section('scripts')
+<script>
+    var ctxSales = document.getElementById('salesChart').getContext('2d');
+    var salesChart = new Chart(ctxSales, {
+        type: 'line', // Bisa 'bar', 'line', 'pie', dll.
+        data: {
+            labels: {!! json_encode($salesChartLabels) !!}, // Misalnya ['Januari', 'Februari', ...]
+            datasets: [{
+                label: 'Sales',
+                data: {!! json_encode($salesChartData) !!}, // Data penjualan
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    
+    var ctxVisitors = document.getElementById('visitorChart').getContext('2d');
+    var visitorChart = new Chart(ctxVisitors, {
+        type: 'bar', 
+        data: {
+            labels: {!! json_encode($visitorChartLabels) !!}, 
+            datasets: [{
+                label: 'Visitors',
+                data: {!! json_encode($visitorChartData) !!}, 
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    
+    var ctxProductCategory = document.getElementById('productCategoryChart').getContext('2d');
+    var productCategoryChart = new Chart(ctxProductCategory, {
+        type: 'pie',
+        data: {
+            labels: {!! json_encode($productCategoryLabels) !!}, 
+            datasets: [{
+                label: 'Product Categories',
+                data: {!! json_encode($productCategoryData) !!}, 
+                backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56'],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+</script>
+
 @endsection

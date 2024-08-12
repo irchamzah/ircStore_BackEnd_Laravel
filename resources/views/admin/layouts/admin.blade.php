@@ -11,6 +11,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     @yield('head')
 </head>
 
@@ -76,6 +78,9 @@
             </section>
         </main>
     </div>
+
+    @yield('scripts')
+
 </body>
 
 

@@ -56,12 +56,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/order/{id}', [OrderController::class, 'show'])->name('order.show');
     Route::post('/order/generateSnapToken', [OrderController::class, 'generateSnapToken'])->name('order.generateSnapToken');
     Route::post('/order/delete', [OrderController::class, 'delete'])->name('order.delete');
-    // Route::post('/order/continuePayment', [OrderController::class, 'continuePayment'])->name('order.continuePayment');
     Route::post('/order/pay', [OrderController::class, 'pay'])->name('order.pay');
     Route::post('/order/cancel', [OrderController::class, 'cancel'])->name('order.cancel');
     Route::post('/order/syncStatus', [OrderController::class, 'syncStatus'])->name('order.syncStatus');
     Route::post('/order/updateStatus', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
-    // Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
     Route::get('/order/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
     Route::post('/order/{order}/complete', [OrderController::class, 'complete'])->name('order.complete');
 

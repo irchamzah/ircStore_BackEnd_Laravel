@@ -41,8 +41,33 @@ class AdminController extends Controller
             ->get();
 
         // System Status
-        $serverStatus = 'All systems operational';  // Ini statis, bisa disesuaikan dengan logika sistem.
-        $errorLogs = 'No critical errors found';    // Ini juga statis, sesuaikan dengan pengambilan data log jika ada.
+        $serverStatus = 'All systems operational';
+        $errorLogs = 'No critical errors found';
+
+        // Sales Chart Data
+        $salesChartData = Order::select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(total) as total'))
+            ->whereBetween('created_at', [now()->subDays(30), now()])
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderBy(DB::raw('DATE(created_at)'))
+            ->pluck('total', 'date');
+
+        $salesChartLabels = $salesChartData->keys()->toArray();
+        $salesChartData = $salesChartData->values()->toArray();
+
+        // Visitor Chart Data
+        $visitorChartData = [];
+        $visitorChartLabels = [];
+
+        // Product Category Data
+        $productCategories = Product::select('category_id', DB::raw('COUNT(*) as count'))
+            ->groupBy('category_id')
+            ->get();
+
+        $productCategoryLabels = $productCategories->map(function ($category) {
+            return $category->category->name;
+        })->toArray();
+
+        $productCategoryData = $productCategories->pluck('count')->toArray();
 
         return view('admin.dashboard', compact(
             'totalUsers',
@@ -59,7 +84,13 @@ class AdminController extends Controller
             'latestFeedback',
             'productRatingsSummary',
             'serverStatus',
-            'errorLogs'
+            'errorLogs',
+            'salesChartLabels',
+            'salesChartData',
+            'visitorChartLabels',
+            'visitorChartData',
+            'productCategoryLabels',
+            'productCategoryData'
         ));
     }
 }
