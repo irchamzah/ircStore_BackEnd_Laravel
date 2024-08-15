@@ -44,7 +44,7 @@
             <li>Ulasan Terbaru:
                 @if($recentReview)
                 <a class="text-blue-600 underline hover:text-blue-800"
-                    href="{{ route('admin.products.show', $recentReview->product->id) }}">
+                    href="{{ route('product.show', $recentReview->product->id) }}">
                     {{ $recentReview->rating }} bintang oleh {{ $recentReview->user->name }} untuk produk {{
                     $recentReview->product->name }}
                 </a>
@@ -118,7 +118,7 @@
             <li>
                 {{ $feedback->user->name }} memberikan rating {{ $feedback->rating }} bintang untuk
                 <a class="text-blue-600 underline hover:text-blue-800"
-                    href="{{ route('admin.products.show', $feedback->product->id) }}">{{ $feedback->product->name }}</a>
+                    href="{{ route('product.show', $feedback->product->id) }}">{{ $feedback->product->name }}</a>
             </li>
             @endforeach
             @else
@@ -151,57 +151,7 @@
 {{-- TODO --}}
 
 <div class="bg-white p-6 rounded-lg shadow-lg grid grid-cols-3">
-    <div>
-        <h2 class="text-2xl font-semibold mb-4">TODO DASHBOARD PAGE:</h2>
-        <p class="font-semibold">1. Overview Statistis:</p>
-        <ul class="list-disc list-inside">
-            <li>Jumlah total pengguna.</li>
-            <li>Jumlah pesanan yang baru masuk atau pesanan total.</li>
-            <li>Pendapatan keseluruhan dalam periode tertentu (hari ini, minggu ini, bulan ini).</li>
-            <li>Produk dengan penjualan tertinggi atau produk paling populer.</li>
-        </ul>
-        <br>
-        <p class="font-semibold">2. Recent Activities:</p>
-        <ul class="list-disc list-inside">
-            <li>Daftar pesanan terbaru.</li>
-            <li>Ulasan terbaru dari pelanggan.</li>
-            <li>Aktivitas terbaru pengguna, seperti pengguna baru yang mendaftar.</li>
-        </ul>
-        <br>
-        <p class="font-semibold">3. Quick Actions:</p>
-        <ul class="list-disc list-inside">
-            <li>Tombol untuk menambahkan produk baru.</li>
-            <li>Akses cepat ke manajemen kategori, produk, pesanan, atau pengguna.</li>
-            <li>Shortcut untuk melihat laporan keuangan atau statistik penjualan.</li>
-        </ul>
-        <br>
-        <p class="font-semibold">4. Notifications:</p>
-        <ul class="list-disc list-inside">
-            <li>Notifikasi untuk pesanan yang perlu diproses.</li>
-            <li>Pengingat untuk produk yang stoknya hampir habis.</li>
-            <li>Notifikasi untuk ulasan yang perlu ditinjau.</li>
-        </ul>
-        <br>
-        <p class="font-semibold">5. Charts & Graphs:</p>
-        <ul class="list-disc list-inside">
-            <li>Grafik penjualan harian, mingguan, atau bulanan.</li>
-            <li>Grafik tren pengunjung website.</li>
-            <li>Diagram kategori produk terlaris.</li>
-        </ul>
-        <br>
-        <p class="font-semibold">6. User Feedback:</p>
-        <ul class="list-disc list-inside">
-            <li>Menampilkan ulasan atau pertanyaan terbaru dari pengguna.</li>
-            <li>Rangkuman rating produk.</li>
-        </ul>
-        <br>
-        <p class="font-semibold">7. System Status:</p>
-        <ul class="list-disc list-inside">
-            <li>Status server atau aplikasi (uptime, performa).</li>
-            <li>Log error atau isu penting yang terjadi di sistem.</li>
-        </ul>
-        <br>
-    </div>
+
     <div>
         <h2 class="text-2xl font-semibold mb-4">TODO:</h2>
         <p class="font-semibold">1. Home Page:</p>

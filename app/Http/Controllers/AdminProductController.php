@@ -70,7 +70,7 @@ class AdminProductController extends Controller
         // Menangani upload gambar jika ada
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images/products'), $imageName);
+            $request->image->move(public_path('images/products/'), $imageName);
             $product->image = $imageName;
         }
 
@@ -111,13 +111,13 @@ class AdminProductController extends Controller
         // Handle image upload
         if ($request->hasFile('image')) {
             // Hapus foto sebelumnya jika ada
-            if ($product->image && file_exists(public_path('images/products' . $product->image))) {
-                unlink(public_path('images/products' . $product->image));
+            if ($product->image && file_exists(public_path('images/products/' . $product->image))) {
+                unlink(public_path('images/products/' . $product->image));
             }
 
             // Upload foto baru
             $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images/products'), $imageName);
+            $request->image->move(public_path('images/products/'), $imageName);
             $product->image = $imageName;
         }
 
@@ -131,7 +131,7 @@ class AdminProductController extends Controller
     public function destroy(Product $product)
     {
         if ($product->image) {
-            unlink(public_path('images/products' . $product->image));
+            unlink(public_path('images/products/' . $product->image));
         }
 
         $product->delete();
