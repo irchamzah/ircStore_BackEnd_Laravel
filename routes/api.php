@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ProductController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,12 +17,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/users', function () {
-    return User::all();
-});
 
+Route::get('/products/showfeaturedProducts', [ProductController::class, 'showfeaturedProducts']);
+Route::get('/products/showAllProducts', [ProductController::class, 'showAllProducts']);
+Route::get('/products/{id}', [ProductController::class, 'detailProduct']);
+Route::get('/products/{id}/loadMoreReviews', [ProductController::class, 'loadMoreReviews']);
 
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::get('/categories/showAllCategories', [CategoryController::class, 'showAllCategories']);

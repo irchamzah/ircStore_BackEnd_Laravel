@@ -1,15 +1,30 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function search(Request $request)
+
+    public function showfeaturedProducts()
+    {
+        $featuredProducts = Product::where('is_featured', true)->take(4)->with('reviews')->get();
+        $categories = Category::take(4)->get();
+
+        // Menghitung rata-rata rating untuk setiap produk
+        foreach ($featuredProducts as $product) {
+            $product->averageRating = $product->reviews->avg('rating') ?? 0;
+            $product->reviewsCount = $product->reviews->count();
+        }
+
+        return response()->json(['featuredProducts' => $featuredProducts, 'categories' => $categories]);
+    }
+
+    public function showAllProducts(Request $request)
     {
         $query = Product::query();
 
@@ -42,13 +57,15 @@ class ProductController extends Controller
             $product->reviewsCount = $product->reviews->count();
         }
 
-        return view('products.search', compact('products', 'categories'));
+        return response()->json(['products' => $products, 'categories' => $categories]);
     }
 
-    public function show($id)
+    public function detailProduct($id)
     {
         // Ambil produk beserta semua ulasan untuk perhitungan rata-rata dan total ulasan
-        $product = Product::with('reviews')->findOrFail($id);
+        $product = Product::with(['reviews' => function ($query) {
+            $query->with('user')->orderBy('created_at', 'desc');
+        }, 'category'])->findOrFail($id);
 
         // Menghitung rata-rata rating, jika ada ulasan
         $averageRating = $product->reviews->avg('rating');
@@ -75,33 +92,12 @@ class ProductController extends Controller
         // Ambil 5 ulasan terbaru untuk ditampilkan
         $latestReviews = $product->reviews->sortByDesc('created_at')->take(5);
 
-        return view('products.show', compact('product', 'averageRating', 'ratingPercentages', 'totalReviewsCount', 'latestReviews'));
-    }
-
-
-
-    public function reviews($id)
-    {
-        $page = request()->query('page', 1);
-        $perPage = 5;
-        $skip = ($page - 1) * $perPage;
-
-        $product = Product::findOrFail($id);
-        $reviews = $product->reviews()
-            ->orderBy('created_at', 'desc')
-            ->skip($skip)
-            ->take($perPage)
-            ->get();
-
         return response()->json([
-            'reviews' => $reviews->map(function ($review) {
-                return [
-                    'rating' => $review->rating,
-                    'user_name' => $review->user->name,
-                    'review' => $review->review,
-                    'created_at' => $review->created_at->format('M d, Y'),
-                ];
-            }),
+            'product' => $product,
+            'averageRating' => $averageRating,
+            'ratingPercentages' => $ratingPercentages,
+            'totalReviewsCount' => $totalReviewsCount,
+            'latestReviews' => $latestReviews,
         ]);
     }
 
@@ -118,6 +114,7 @@ class ProductController extends Controller
             ->get()
             ->map(function ($review) {
                 return [
+                    'id' => $review->id,
                     'user' => [
                         'name' => $review->user->name,
                         'photo' => $review->user->photo,

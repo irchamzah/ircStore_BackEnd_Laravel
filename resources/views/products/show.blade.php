@@ -230,7 +230,7 @@
                                 <div class="flex items-center my-4">
                                     <img class="w-10 h-10 me-4 rounded-full" src="/images/profiles/${review.user.photo}" alt="${review.user.name}">
                                     <div class="font-medium dark:text-white">
-                                        <p>${review.user.name} <time datetime="" class="block text-sm text-gray-500 dark:text-gray-400">Joined on ${new Date(review.user.created_at).toLocaleDateString()}</time></p>
+                                        <p>${review.user.name} <time datetime="" class="block text-sm text-gray-500 dark:text-gray-400">Joined on ${new Date(review.user.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time></p>
                                     </div>
                                 </div>
                                     <div class="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
@@ -238,7 +238,7 @@
                                         ${'<i class="far fa-star w-4 h-4 text-yellow-300 me-1"></i>'.repeat(5 - review.rating)}
                                     </div>
                                     <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400">
-                                        <p>Reviewed on <time datetime="">${new Date(review.created_at).toLocaleDateString()}</time></p>
+                                        <p>Reviewed on <time datetime="">${new Date(review.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time></p>
                                     </footer>
                                     <p class="mb-4 text-gray-500 dark:text-gray-400">${review.review}</p>
                                     <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
